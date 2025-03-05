@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5dw6pxhwl8k6"]
+
+[ext_resource type="Script" uid="uid://blgm7npb8kqb4" path="res://scripts/pool_ball.gd" id="1_66fna"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0oykc"]
+bounce = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w5es4"]
+radius = 18.0
+
+[node name="PoolBall" type="RigidBody2D" groups=["balls"]]
+physics_material_override = SubResource("PhysicsMaterial_0oykc")
+script = ExtResource("1_66fna")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_w5es4")

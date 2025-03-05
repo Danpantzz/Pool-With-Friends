@@ -11,10 +11,22 @@ config_version=5
 [application]
 
 config/name="Pool With Friends"
+run/main_scene="uid://cp5s3s4288xe1"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1200
+window/size/viewport_height=778
 
 [editor]
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+2d/default_gravity_vector=Vector2(0, 0)
+2d/default_linear_damp=1.2
