@@ -1,5 +1,10 @@
 extends Node
 
+# multiplayer signals
+signal player_connected(peer_id, player_info)
+signal player_disconnected(peer_id)
+signal server_disconnected
+
 @export var ball_scene : PackedScene
 
 #@onready var main_menu: PanelContainer = $CanvasLayer/MainMenu
@@ -22,9 +27,7 @@ var potted := []
 var game_started := true
 
 # multiplayer variables
-#@export var player_scene: PackedScene
-#@export var player_name_scene: PackedScene
-#
+
 #@onready var host: Button = %Host
 #@onready var join: Button = %Join
 #@onready var address_entry: LineEdit = %AddressEntry
@@ -32,14 +35,27 @@ var game_started := true
 #@onready var list_1: VBoxContainer = %List1
 #@onready var list_2: VBoxContainer = %List2
 
+var players = {}
+
+var player_info = {"name": "Player"}
+
 const PORT = 9999
 var peer = ENetMultiplayerPeer.new()
 
 ##### Game Logic #####
 func _ready() -> void:
 	load_images()
-	new_game()
+	#new_game()
+	
+	# Set up pockets connection to potted ball function
 	table.get_node("Pockets").body_entered.connect(potted_ball)
+	
+	# multiplayer connections
+	#multiplayer.peer_connected.connect(_on_player_connected)
+	#multiplayer.peer_disconnected.connect(_on_player_disconnected)
+	#multiplayer.connected_to_server.connect(_on_connected_ok)
+	#multiplayer.connection_failed.connect(_on_connected_fail)
+	#multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 func _process(_delta) -> void:
 	if not game_started: return
@@ -94,14 +110,14 @@ func generate_balls():
 	var dia = 36
 	for col in range(5):
 		for row in range(rows):
-			var b = ball_scene.instantiate()
+			var b : Ball = ball_scene.instantiate()
 			var pos = Vector2(250 + (col * (dia)), 267 + (row * (dia)) + (col * dia / 2))
 			add_child.call_deferred(b)
 			
 			# set ball to solid or striped
-			if count < 7: b.solid = true
-			elif count == 7: b.eight_ball = true
-			else: b.solid = false
+			if count < 7: b.ball_type = b.Ball_Types.solid
+			elif count == 7: b.ball_type = b.Ball_Types.eight_ball
+			else: b.ball_type = b.Ball_Types.striped
 			
 			b.ball_num = count + 1
 			b.position = pos
@@ -141,7 +157,7 @@ func potted_ball(body: Ball):
 	if body == cue_ball:
 		cue_ball_potted = true
 		remove_cue_ball()
-	elif body.eight_ball:
+	elif body.ball_type == body.Ball_Types.eight_ball:
 		new_game()
 	else:
 		var b = TextureRect.new()
