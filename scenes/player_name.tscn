@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://cc6a2bvkv6074"]
-
-[node name="PlayerName" type="Label"]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Player"
