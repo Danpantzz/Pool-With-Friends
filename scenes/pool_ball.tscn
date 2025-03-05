@@ -3,13 +3,14 @@
 [ext_resource type="Script" uid="uid://blgm7npb8kqb4" path="res://scripts/pool_ball.gd" id="1_66fna"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0oykc"]
-bounce = 4.0
+bounce = 3.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w5es4"]
 radius = 18.0
 
 [node name="PoolBall" type="RigidBody2D" groups=["balls"]]
 physics_material_override = SubResource("PhysicsMaterial_0oykc")
+linear_damp = 0.62
 script = ExtResource("1_66fna")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -1,6 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dg6qdx5ayqrnd"]
+[gd_scene load_steps=9 format=3 uid="uid://dg6qdx5ayqrnd"]
 
 [ext_resource type="Texture2D" uid="uid://bjeye47piymlv" path="res://assets/table.png" id="1_02ppr"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_02ppr"]
+absorbent = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_02ppr"]
 size = Vector2(432, 392)
@@ -25,6 +28,7 @@ texture = ExtResource("1_02ppr")
 centered = false
 
 [node name="Cushions" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_02ppr")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Cushions"]
 polygon = PackedVector2Array(110, 77, 89, 55, 88, -313, 565, -313, 564, 56, 555, 77)

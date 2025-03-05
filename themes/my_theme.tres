@@ -22,3 +22,7 @@ MarginContainer/constants/margin_top = 15
 Panel/styles/panel = SubResource("StyleBoxFlat_wsmpm")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_np6xb")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_s4byv")
+Subtitle/base_type = &"Label"
+Subtitle/font_sizes/font_size = 26
+Title/base_type = &"Label"
+Title/font_sizes/font_size = 36

@@ -25,8 +25,11 @@ window/size/viewport_height=778
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 
+[gui]
+
+theme/custom="uid://cs0dacdtiio8v"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
 2d/default_gravity_vector=Vector2(0, 0)
-2d/default_linear_damp=1.2

@@ -1,5 +1,7 @@
 extends Sprite2D
 
+class_name Cue
+
 signal shoot
 
 var power : float = 0.0
@@ -17,7 +19,7 @@ func _physics_process(delta: float) -> void:
 			power_dir = -1
 		elif power <= 0:
 			power_dir = 1
-		print(power)
+		#print(power)
 	else:
 		power_dir = 1
 		if power > 0:

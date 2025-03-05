@@ -1,3 +1,18 @@
-[gd_scene format=3 uid="uid://dvaa0g0quhwoa"]
+[gd_scene load_steps=3 format=3 uid="uid://dygt7qj3otsog"]
+
+[sub_resource type="GDScript" id="GDScript_tefeu"]
+script/source = "extends Node
+
+var player_name := \"Player#\" + str(randi_range(0, 10))
+
+func _enter_tree() -> void:
+	set_multiplayer_authority(name.to_int())
+"
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3vyb7"]
 
 [node name="Player" type="Node"]
+script = SubResource("GDScript_tefeu")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_3vyb7")
