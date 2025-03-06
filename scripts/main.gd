@@ -58,11 +58,11 @@ func _process(_delta) -> void:
 			
 			if not taking_shot:
 				taking_shot = true
-				show_cue()
+				show_cue.rpc()
 		else:
 			if taking_shot:
 				taking_shot = false
-				hide_cue()
+				hide_cue.rpc()
 	else:
 		cue.set_physics_process(false)
 
@@ -76,10 +76,11 @@ func set_up_players():
 	players = Lobby.players.size()
 	
 	for p in Lobby.players:
+		p.my_turn = false
 		if p._id == multiplayer.get_unique_id():
 			player = p
 	
-	Lobby.players.front().my_turn = true
+	Lobby.players[turn].my_turn = true
 
 func new_game():
 	cue_ball_potted = false
@@ -128,6 +129,7 @@ func reset_cue_ball():
 	cue_ball.get_node("Sprite2D").texture = ball_images.back()
 	taking_shot = false
 
+@rpc("any_peer", "call_local", "reliable")
 func show_cue():
 	cue.set_physics_process(true)
 	cue.position = cue_ball.position
@@ -136,13 +138,19 @@ func show_cue():
 	cue.show()
 	power_bar.show()
 
+@rpc("any_peer", "call_local", "reliable")
 func hide_cue():
 	cue.set_physics_process(false)
 	cue.hide()
 	power_bar.hide()
 
+@rpc("any_peer", "call_local", "reliable")
 func _on_cue_shoot(power) -> void:
 	cue_ball.apply_central_impulse(power)
+	turn += 1
+	if (turn >= Lobby.players.size()): turn = 0
+	set_up_players()
+
 
 func potted_ball(body: Ball):
 	if body == cue_ball:

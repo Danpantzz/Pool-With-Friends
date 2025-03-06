@@ -111,9 +111,12 @@ func _register_player(new_player_info):
 	
 	players.append(info)
 	
-	players.sort()
+	players.sort_custom(my_sort)
 	player_connected.emit(new_player_id, info)
 
+func my_sort(a, b):
+	if a._id > b._id: return true
+	return false
 
 func _on_player_disconnected(id):
 	players.erase(id)

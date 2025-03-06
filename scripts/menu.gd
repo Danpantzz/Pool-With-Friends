@@ -23,7 +23,7 @@ func _on_join_pressed() -> void:
 	Lobby.join_game(address_entry.text)
 
 func change_ui(id, info):
-	if not multiplayer.is_server(): start_button.disabled
+	if not multiplayer.get_unique_id() == 1: start_button.disabled
 	main_menu.hide()
 	lobby.show()
 	display_teams()
@@ -61,3 +61,4 @@ func _on_team_2_button_pressed() -> void:
 
 func _on_start_button_pressed() -> void:
 	Lobby.load_game.rpc("res://scenes/main.tscn")
+	#get_tree().change_scene_to_file("res://scenes/main.tscn")

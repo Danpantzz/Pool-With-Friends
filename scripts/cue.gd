@@ -24,5 +24,11 @@ func _physics_process(delta: float) -> void:
 		power_dir = 1
 		if power > 0:
 			var dir = mouse_pos - position
-			shoot.emit(power * dir)
+			_shoot.rpc(power, dir)
+			#shoot.emit(power * dir)
 			power = 0
+
+@rpc("any_peer", "call_local", "reliable")
+func _shoot(pow, dir):
+	shoot.emit(pow * dir)
+	#power = 0

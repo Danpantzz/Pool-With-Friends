@@ -26,9 +26,11 @@ unique_name_in_owner = true
 
 [node name="Cue" parent="Game" instance=ExtResource("4_jyhfs")]
 unique_name_in_owner = true
+visible = false
 
 [node name="PowerBar" type="ProgressBar" parent="Game"]
 unique_name_in_owner = true
+visible = false
 z_index = 1
 offset_left = 107.0
 offset_top = 106.0
