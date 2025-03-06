@@ -11,13 +11,15 @@
 script = ExtResource("1_o5qli")
 ball_scene = ExtResource("2_sugp2")
 
-[node name="Table" parent="." instance=ExtResource("2_0wfyh")]
+[node name="Game" type="Node" parent="."]
+
+[node name="Table" parent="Game" instance=ExtResource("2_0wfyh")]
 unique_name_in_owner = true
 
-[node name="Cue" parent="." instance=ExtResource("4_jyhfs")]
+[node name="Cue" parent="Game" instance=ExtResource("4_jyhfs")]
 unique_name_in_owner = true
 
-[node name="PowerBar" type="ProgressBar" parent="."]
+[node name="PowerBar" type="ProgressBar" parent="Game"]
 unique_name_in_owner = true
 z_index = 1
 offset_left = 107.0
@@ -28,7 +30,7 @@ theme = ExtResource("5_tbgi4")
 show_percentage = false
 script = ExtResource("6_tefeu")
 
-[node name="PottedPanel" type="Panel" parent="."]
+[node name="PottedPanel" type="Panel" parent="Game"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -41,7 +43,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("5_tbgi4")
 
-[node name="PottedGrid" type="GridContainer" parent="PottedPanel"]
+[node name="PottedGrid" type="GridContainer" parent="Game/PottedPanel"]
 unique_name_in_owner = true
 layout_direction = 2
 layout_mode = 1
@@ -59,4 +61,4 @@ grow_vertical = 2
 theme = ExtResource("5_tbgi4")
 columns = 17
 
-[connection signal="shoot" from="Cue" to="." method="_on_cue_shoot"]
+[connection signal="shoot" from="Game/Cue" to="." method="_on_cue_shoot"]

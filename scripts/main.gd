@@ -1,17 +1,12 @@
 extends Node
 
-# multiplayer signals
-signal player_connected(peer_id, player_info)
-signal player_disconnected(peer_id)
-signal server_disconnected
-
 @export var ball_scene : PackedScene
 
 #@onready var main_menu: PanelContainer = $CanvasLayer/MainMenu
 #@onready var lobby: PanelContainer = $CanvasLayer/Lobby
 
 @onready var table: Sprite2D = %Table
-@onready var cue: Sprite2D = %Cue
+@onready var cue: Cue = %Cue
 @onready var power_bar: ProgressBar = %PowerBar
 @onready var potted_grid: GridContainer = %PottedGrid
 
@@ -39,13 +34,12 @@ var players = {}
 
 var player_info = {"name": "Player"}
 
-const PORT = 9999
-var peer = ENetMultiplayerPeer.new()
+
 
 ##### Game Logic #####
 func _ready() -> void:
 	load_images()
-	#new_game()
+	new_game()
 	
 	# Set up pockets connection to potted ball function
 	table.get_node("Pockets").body_entered.connect(potted_ball)
