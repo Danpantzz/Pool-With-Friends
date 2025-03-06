@@ -75,7 +75,7 @@ func load_images():
 func set_up_players():
 	players = Lobby.players.size()
 	Lobby.players[turn].my_turn = true
-	current_player = Lobby.players[turn]._id
+	current_player = Lobby.players[turn]
 
 func new_game():
 	cue_ball_potted = false

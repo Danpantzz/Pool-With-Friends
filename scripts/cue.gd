@@ -11,10 +11,10 @@ func _physics_process(delta: float) -> void:
 	if not get_tree().root.get_node("Main").game_started: return
 	
 	# if not my turn, return
-	if not get_tree().root.get_node("Main").current_player == multiplayer.get_unique_id(): return
+	if not get_tree().root.get_node("Main").current_player._id == multiplayer.get_unique_id(): return
 	
-	var mouse_pos := get_viewport().get_mouse_position()
-	look_at(mouse_pos)
+	var mouse_pos := get_global_mouse_position()
+	_look_at.rpc(mouse_pos)
 	
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		power += 0.1 * power_dir
@@ -35,3 +35,7 @@ func _physics_process(delta: float) -> void:
 func _shoot(pow, dir):
 	shoot.emit(pow * dir)
 	#power = 0
+	
+@rpc("any_peer", "call_local", "reliable")
+func _look_at(pos):
+	look_at(pos)
