@@ -23,7 +23,7 @@ var game_started := true
 
 # multiplayer variables
 var players = 0
-var player: Player_Info
+var current_player
 var turn = 0
 
 
@@ -49,22 +49,22 @@ func _process(_delta) -> void:
 		elif b.linear_velocity.length() >= MOVE_THRESHOLD:
 			moving = true
 	
-	if player.my_turn:
-		if not moving:
-			# check if cue ball has been potted and reset it
-			if cue_ball_potted:
-				reset_cue_ball()
-				cue_ball_potted = false
+	#if multiplayer.get_unique_id() == current_player:
+	if not moving:
+		# check if cue ball has been potted and reset it
+		if cue_ball_potted:
+			reset_cue_ball()
+			cue_ball_potted = false
 			
-			if not taking_shot:
-				taking_shot = true
-				show_cue.rpc()
-		else:
-			if taking_shot:
-				taking_shot = false
-				hide_cue.rpc()
+		if not taking_shot:
+			taking_shot = true
+			show_cue.rpc()
 	else:
-		cue.set_physics_process(false)
+		if taking_shot:
+			taking_shot = false
+			hide_cue.rpc()
+	#else:
+		#cue.set_physics_process(false)
 
 func load_images():
 	for i in range(1, 17, 1):
@@ -74,13 +74,8 @@ func load_images():
 
 func set_up_players():
 	players = Lobby.players.size()
-	
-	for p in Lobby.players:
-		p.my_turn = false
-		if p._id == multiplayer.get_unique_id():
-			player = p
-	
 	Lobby.players[turn].my_turn = true
+	current_player = Lobby.players[turn]._id
 
 func new_game():
 	cue_ball_potted = false
@@ -147,6 +142,7 @@ func hide_cue():
 @rpc("any_peer", "call_local", "reliable")
 func _on_cue_shoot(power) -> void:
 	cue_ball.apply_central_impulse(power)
+	Lobby.players[turn].my_turn = false
 	turn += 1
 	if (turn >= Lobby.players.size()): turn = 0
 	set_up_players()

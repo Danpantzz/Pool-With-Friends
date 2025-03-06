@@ -10,6 +10,9 @@ var power_dir = 1
 func _physics_process(delta: float) -> void:
 	if not get_tree().root.get_node("Main").game_started: return
 	
+	# if not my turn, return
+	if not get_tree().root.get_node("Main").current_player == multiplayer.get_unique_id(): return
+	
 	var mouse_pos := get_viewport().get_mouse_position()
 	look_at(mouse_pos)
 	
