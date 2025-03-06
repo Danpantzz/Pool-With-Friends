@@ -22,34 +22,19 @@ var potted := []
 var game_started := true
 
 # multiplayer variables
-
-#@onready var host: Button = %Host
-#@onready var join: Button = %Join
-#@onready var address_entry: LineEdit = %AddressEntry
-#@onready var code_label: Label = %Code
-#@onready var list_1: VBoxContainer = %List1
-#@onready var list_2: VBoxContainer = %List2
-
-var players = {}
-
-var player_info = {"name": "Player"}
-
+var players = 0
+var player: Player_Info
+var turn = 0
 
 
 ##### Game Logic #####
 func _ready() -> void:
 	load_images()
+	set_up_players()
 	new_game()
 	
 	# Set up pockets connection to potted ball function
 	table.get_node("Pockets").body_entered.connect(potted_ball)
-	
-	# multiplayer connections
-	#multiplayer.peer_connected.connect(_on_player_connected)
-	#multiplayer.peer_disconnected.connect(_on_player_disconnected)
-	#multiplayer.connected_to_server.connect(_on_connected_ok)
-	#multiplayer.connection_failed.connect(_on_connected_fail)
-	#multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 func _process(_delta) -> void:
 	if not game_started: return
@@ -64,25 +49,37 @@ func _process(_delta) -> void:
 		elif b.linear_velocity.length() >= MOVE_THRESHOLD:
 			moving = true
 	
-	if not moving:
-		# check if cue ball has been potted and reset it
-		if cue_ball_potted:
-			reset_cue_ball()
-			cue_ball_potted = false
-		
-		if not taking_shot:
-			taking_shot = true
-			show_cue()
+	if player.my_turn:
+		if not moving:
+			# check if cue ball has been potted and reset it
+			if cue_ball_potted:
+				reset_cue_ball()
+				cue_ball_potted = false
+			
+			if not taking_shot:
+				taking_shot = true
+				show_cue()
+		else:
+			if taking_shot:
+				taking_shot = false
+				hide_cue()
 	else:
-		if taking_shot:
-			taking_shot = false
-			hide_cue()
+		cue.set_physics_process(false)
 
 func load_images():
 	for i in range(1, 17, 1):
 		var filename = str("res://assets/balls/ball_", i, ".png")
 		var ball_image = load(filename)
 		ball_images.append(ball_image)
+
+func set_up_players():
+	players = Lobby.players.size()
+	
+	for p in Lobby.players:
+		if p._id == multiplayer.get_unique_id():
+			player = p
+	
+	Lobby.players.front().my_turn = true
 
 func new_game():
 	cue_ball_potted = false

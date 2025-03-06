@@ -6,22 +6,35 @@ extends Node
 signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 signal server_disconnected
+signal team_changed()
 
 const PORT = 9999
 const DEFAULT_SERVER_IP = "localhost" # IPv4 localhost
-const MAX_CONNECTIONS = 20
+const MAX_CONNECTIONS = 6
+
+var join_address
 
 var peer = ENetMultiplayerPeer.new()
 
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
-var players = {}
+
+var players: Array[Player_Info] = []
+
+#var players = {}
 
 # This is the local player info. This should be modified locally
 # before the connection is made. It will be passed to every other peer.
 # For example, the value of "name" can be set to something the player
 # entered in a UI scene.
-var player_info = {"name": "Name"}
+
+var player_info: Player_Info = Player_Info.new()
+
+#var player_info = {
+	#"name": "Name",
+	#"team": 1,
+	#"ball_type": Ball.Ball_Types.solid
+	#}
 
 var players_loaded = 0
 
@@ -42,15 +55,18 @@ func join_game(address = ""):
 		return error
 	multiplayer.multiplayer_peer = peer
 
-
 func create_game():
 	#var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(PORT, MAX_CONNECTIONS)
 	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
-
-	players[1] = player_info
+	
+	player_info._id = 1
+	players.append(player_info)
+	#players[1] = player_info
+	
+	#players[1] = player_info
 	player_connected.emit(1, player_info)
 	
 	upnp_setup()
@@ -58,7 +74,6 @@ func create_game():
 func remove_multiplayer_peer():
 	multiplayer.multiplayer_peer = null
 	players.clear()
-
 
 # When the server decides to start the game from a UI scene,
 # do Lobby.load_game.rpc(filepath)
@@ -80,14 +95,24 @@ func player_loaded():
 # When a peer connects, send them my player info.
 # This allows transfer of all desired data for each player, not only the unique ID.
 func _on_player_connected(id):
-	_register_player.rpc_id(id, player_info)
+	# encrypt data
+	var info = inst_to_dict(player_info)
+	
+	_register_player.rpc_id(id, info)
 
 
 @rpc("any_peer", "reliable")
 func _register_player(new_player_info):
+	# decrypt data
+	var info = dict_to_inst(new_player_info)
+	
 	var new_player_id = multiplayer.get_remote_sender_id()
-	players[new_player_id] = new_player_info
-	player_connected.emit(new_player_id, new_player_info)
+	#players[new_player_id] = info
+	
+	players.append(info)
+	
+	players.sort()
+	player_connected.emit(new_player_id, info)
 
 
 func _on_player_disconnected(id):
@@ -97,7 +122,11 @@ func _on_player_disconnected(id):
 
 func _on_connected_ok():
 	var peer_id = multiplayer.get_unique_id()
-	players[peer_id] = player_info
+	#players[peer_id] = player_info
+	
+	player_info._id = peer_id
+	players.append(player_info)
+	
 	player_connected.emit(peer_id, player_info)
 
 
@@ -125,3 +154,14 @@ func upnp_setup():
 		"UPNP Port Mapping Failed! Error %s" % map_result)
 	
 	print("Success! Join Address: %s" % upnp.query_external_address())
+	join_address = upnp.query_external_address()
+
+@rpc("any_peer", "call_local", "reliable")
+func change_team(team):
+	for player in players:
+		if player._id == multiplayer.get_remote_sender_id():
+			player.team = team
+			break
+	#players[multiplayer.get_remote_sender_id()].team = team
+	#print(players)
+	team_changed.emit()

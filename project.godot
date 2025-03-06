@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Pool With Friends"
-run/main_scene="uid://cp5s3s4288xe1"
+run/main_scene="uid://qqfa6ngjymg3"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 

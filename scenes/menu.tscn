@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://qqfa6ngjymg3"]
+[gd_scene load_steps=3 format=3 uid="uid://qqfa6ngjymg3"]
+
+[ext_resource type="Script" uid="uid://d0ngg5f72i3ay" path="res://scripts/menu.gd" id="1_vjb58"]
+[ext_resource type="Theme" uid="uid://cs0dacdtiio8v" path="res://themes/my_theme.tres" id="1_yqeox"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -7,3 +10,116 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_vjb58")
+
+[node name="MainMenu" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 470.0
+offset_top = 262.0
+offset_right = -470.0
+offset_bottom = -262.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_yqeox")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_yqeox")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+horizontal_alignment = 1
+
+[node name="NameEntry" type="LineEdit" parent="MainMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Host" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Join"
+
+[node name="AddressEntry" type="LineEdit" parent="MainMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Enter Address"
+
+[node name="Lobby" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Lobby"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobby/MarginContainer"]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="Lobby/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start"
+
+[node name="Label" type="Label" parent="Lobby/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Lobby"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Lobby/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Team1Button" type="Button" parent="Lobby/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Join Team 1"
+
+[node name="Team2Button" type="Button" parent="Lobby/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Join Team 2"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Lobby/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="List1" type="VBoxContainer" parent="Lobby/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="List2" type="VBoxContainer" parent="Lobby/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="text_changed" from="MainMenu/MarginContainer/VBoxContainer/NameEntry" to="." method="_on_name_entry_text_changed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Lobby/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Lobby/MarginContainer/VBoxContainer/HBoxContainer2/Team1Button" to="." method="_on_team_1_button_pressed"]
+[connection signal="pressed" from="Lobby/MarginContainer/VBoxContainer/HBoxContainer2/Team2Button" to="." method="_on_team_2_button_pressed"]
