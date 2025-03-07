@@ -14,7 +14,7 @@ bg_color = Color(1, 1, 1, 0.411765)
 bg_color = Color(0.802302, 0.0732055, 0.226639, 1)
 
 [resource]
-GridContainer/constants/h_separation = 35
+GridContainer/constants/h_separation = 16
 MarginContainer/constants/margin_bottom = 15
 MarginContainer/constants/margin_left = 15
 MarginContainer/constants/margin_right = 15

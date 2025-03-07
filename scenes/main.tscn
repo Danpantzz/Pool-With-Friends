@@ -64,12 +64,12 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -586.0
 offset_top = -18.0
-offset_right = 586.0
+offset_right = 182.0
 offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("5_tbgi4")
-columns = 17
+columns = 15
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_tefeu")
