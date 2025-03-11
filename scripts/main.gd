@@ -47,18 +47,23 @@ func _process(_delta) -> void:
 	for b in get_tree().get_nodes_in_group("balls"):
 		if (b.linear_velocity.length() > 0.0 and b.linear_velocity.length() < MOVE_THRESHOLD):
 			b.sleeping = true
+			#var ball = inst_to_dict(b)
+			#sleep_ball.rpc(ball)
 			
 		elif b.linear_velocity.length() >= MOVE_THRESHOLD:
 			moving = true
 	
-	#if multiplayer.get_unique_id() == current_player:
+	# do rest of logic only on host
+	if not multiplayer.get_unique_id() == 1: return
+	
 	if not moving:
 		# check if cue ball has been potted and reset it
 		if cue_ball_potted && not placing_cue_ball:
 			#reset_cue_ball()
 			#cue_ball_potted = false
 			#next_turn()
-			place_cue_ball()
+			next_turn.rpc()
+			place_cue_ball.rpc()
 			
 		if not taking_shot && not placing_cue_ball:
 			taking_shot = true
@@ -116,6 +121,12 @@ func generate_balls():
 			count += 1
 		rows -= 1
 
+@rpc("any_peer", "call_local", "reliable")
+func sleep_ball(ball):
+	var b = dict_to_inst(ball)
+	b.sleeping = true
+	
+@rpc("any_peer", "call_local", "reliable")
 func remove_cue_ball():
 	var old_b = cue_ball
 	remove_child(old_b)
@@ -171,6 +182,12 @@ func _on_cue_shoot(power) -> void:
 	#if (turn >= Lobby.players.size()): turn = 0
 	#set_up_players()
 
+@rpc("any_peer", "call_local", "reliable")
+func next_turn():
+	Lobby.players[turn].my_turn = false
+	turn += 1
+	if (turn >= Lobby.players.size()): turn = 0
+	set_up_players()
 
 func potted_ball(body: Ball):
 	if body == cue_ball:
