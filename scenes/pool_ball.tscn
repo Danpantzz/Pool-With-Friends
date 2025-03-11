@@ -18,6 +18,8 @@ properties/1/replication_mode = 1
 
 [node name="PoolBall" type="RigidBody2D" groups=["balls"]]
 physics_material_override = SubResource("PhysicsMaterial_0oykc")
+contact_monitor = true
+max_contacts_reported = 1
 linear_damp = 0.62
 script = ExtResource("1_66fna")
 
@@ -29,3 +31,5 @@ shape = SubResource("CircleShape2D_w5es4")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_66fna")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

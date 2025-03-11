@@ -2,13 +2,15 @@ extends RigidBody2D
 
 class_name Ball
 
-signal placed_ball
 
 var ball_num : int
 #var solid : bool
 #var eight_ball := false
 enum Ball_Types {solid, striped, eight_ball}
 var ball_type: Ball_Types
+
+var ball_hit : Ball_Types
+var first_ball_hit : bool = false
 
 #enum States {PLACING, PLACED}
 #var state: States = States.PLACED
@@ -34,3 +36,9 @@ var ball_type: Ball_Types
 	#print("place ball")
 	#position = pos
 	#placed_ball.emit(pos)
+
+
+func _on_body_entered(body: Node) -> void:
+	if body is Ball && not first_ball_hit:
+		ball_hit = body.ball_type
+		first_ball_hit = true

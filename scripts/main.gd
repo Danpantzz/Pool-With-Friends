@@ -14,6 +14,7 @@ extends Node
 # game variables
 var ball_images := []
 var cue_ball
+var cue_ball_placeholder
 const START_POS := Vector2(890, 340)
 const MAX_POWER := 7.0
 var taking_shot : bool
@@ -21,6 +22,7 @@ const MOVE_THRESHOLD := 5.0
 var cue_ball_potted : bool
 var placing_cue_ball : bool
 var potted := []
+var potted_this_turn := []
 var game_started := true
 
 # multiplayer variables
@@ -63,11 +65,39 @@ func _process(_delta) -> void:
 			#cue_ball_potted = false
 			#next_turn()
 			next_turn.rpc()
-			place_cue_ball.rpc()
+			scratched.rpc()
 			
+		if cue_ball && (cue_ball.ball_hit == null || cue_ball.ball_hit != current_player.ball_to_hit) && not taking_shot && not placing_cue_ball:
+			if cue_ball.ball_hit:
+				print("Ball hit: ", cue_ball.ball_hit)
+			print("Ball to hit: ", current_player.ball_to_hit)
+			remove_cue_ball.rpc()
+			next_turn.rpc()
+			scratched.rpc()
+		
+		# if (hit correct ball && no balls potted || wrong ball type potted) && not taking_shot && not placing_cue_ball:
+		elif cue_ball && (cue_ball.ball_hit == null || cue_ball.ball_hit == current_player.ball_to_hit) && not taking_shot && not placing_cue_ball:
+			var go_again = false
+			if potted_this_turn.size() > 0:
+				for ball in potted_this_turn:
+					print(ball)
+					if (ball == current_player.ball_to_hit):
+						print("go again")
+						go_again = true
+						break
+			
+			if not go_again:
+				next_turn.rpc()
+				show_cue.rpc()
+		
+		# fires first, and after every shot
 		if not taking_shot && not placing_cue_ball:
+			potted_this_turn = []
+			cue_ball.ball_hit = -1
+			cue_ball.first_ball_hit = false
 			taking_shot = true
 			show_cue.rpc()
+			
 	else:
 		if taking_shot:
 			taking_shot = false
@@ -137,25 +167,30 @@ func reset_cue_ball():
 	cue_ball = ball_scene.instantiate()
 	add_child(cue_ball)
 	cue_ball.position = START_POS
-	cue_ball.placed_ball.connect(placed_cue_ball)
 	cue_ball.get_node("Sprite2D").texture = ball_images.back()
-	taking_shot = false
+	taking_shot = true
+	show_cue()
 
 @rpc("any_peer", "call_local", "reliable")
-func place_cue_ball():
+func scratched():
 	placing_cue_ball = true
-	cue_ball = place_cue_ball_scene.instantiate()
-	add_child(cue_ball)
-	cue_ball.state = cue_ball.States.PLACING
-	cue_ball.position = START_POS
-	cue_ball.placed_ball.connect(placed_cue_ball)
+	cue_ball_placeholder = place_cue_ball_scene.instantiate()
+	add_child(cue_ball_placeholder)
+	cue_ball_placeholder.state = cue_ball_placeholder.States.PLACING
+	cue_ball_placeholder.position = START_POS
+	cue_ball_placeholder.placed_ball.connect(placed_cue_ball)
 
 @rpc("any_peer", "call_local", "reliable")
 func placed_cue_ball(pos):
 	#cue_ball.state = cue_ball.States.PLACED
-	remove_cue_ball()
+	#remove_cue_ball()
+	var old_b = cue_ball_placeholder
+	remove_child(old_b)
+	old_b.queue_free()
+	
 	reset_cue_ball()
 	cue_ball.position = pos
+	show_cue()
 	placing_cue_ball = false
 	cue_ball_potted = false
 
@@ -197,9 +232,11 @@ func potted_ball(body: Ball):
 		new_game()
 	else:
 		var b = TextureRect.new()
+		var type = body.ball_type
 		potted_grid.add_child(b)
 		b.texture = body.get_node("Sprite2D").texture
 		potted.append(b)
+		potted_this_turn.append(type)
 		body.queue_free()
 
 func game_over():
