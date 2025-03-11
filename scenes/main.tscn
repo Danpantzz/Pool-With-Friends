@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cp5s3s4288xe1"]
+[gd_scene load_steps=9 format=3 uid="uid://cp5s3s4288xe1"]
 
 [ext_resource type="Script" uid="uid://dinc5cmf640eg" path="res://scripts/main.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://dg6qdx5ayqrnd" path="res://scenes/table.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://b5dw6pxhwl8k6" path="res://scenes/pool_ball.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://di0kdgc8h1g3h" path="res://scenes/cue_ball.tscn" id="3_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://cl43l1bl6c7pg" path="res://scenes/cue.tscn" id="4_jyhfs"]
 [ext_resource type="Theme" uid="uid://cs0dacdtiio8v" path="res://themes/my_theme.tres" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://d0im6kejls5kn" path="res://scripts/power_bar.gd" id="6_tefeu"]
@@ -18,6 +19,7 @@ properties/1/replication_mode = 1
 [node name="Main" type="Node"]
 script = ExtResource("1_o5qli")
 ball_scene = ExtResource("2_sugp2")
+place_cue_ball_scene = ExtResource("3_o6xl0")
 
 [node name="Game" type="Node" parent="."]
 

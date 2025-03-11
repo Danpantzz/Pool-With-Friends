@@ -1,6 +1,7 @@
 extends Node
 
 @export var ball_scene : PackedScene
+@export var place_cue_ball_scene : PackedScene
 
 #@onready var main_menu: PanelContainer = $CanvasLayer/MainMenu
 #@onready var lobby: PanelContainer = $CanvasLayer/Lobby
@@ -18,6 +19,7 @@ const MAX_POWER := 7.0
 var taking_shot : bool
 const MOVE_THRESHOLD := 5.0
 var cue_ball_potted : bool
+var placing_cue_ball : bool
 var potted := []
 var game_started := true
 
@@ -52,11 +54,13 @@ func _process(_delta) -> void:
 	#if multiplayer.get_unique_id() == current_player:
 	if not moving:
 		# check if cue ball has been potted and reset it
-		if cue_ball_potted:
-			reset_cue_ball()
-			cue_ball_potted = false
+		if cue_ball_potted && not placing_cue_ball:
+			#reset_cue_ball()
+			#cue_ball_potted = false
+			#next_turn()
+			place_cue_ball()
 			
-		if not taking_shot:
+		if not taking_shot && not placing_cue_ball:
 			taking_shot = true
 			show_cue.rpc()
 	else:
@@ -117,12 +121,32 @@ func remove_cue_ball():
 	remove_child(old_b)
 	old_b.queue_free()
 
+@rpc("any_peer", "call_local", "reliable")
 func reset_cue_ball():
 	cue_ball = ball_scene.instantiate()
 	add_child(cue_ball)
 	cue_ball.position = START_POS
+	cue_ball.placed_ball.connect(placed_cue_ball)
 	cue_ball.get_node("Sprite2D").texture = ball_images.back()
 	taking_shot = false
+
+@rpc("any_peer", "call_local", "reliable")
+func place_cue_ball():
+	placing_cue_ball = true
+	cue_ball = place_cue_ball_scene.instantiate()
+	add_child(cue_ball)
+	cue_ball.state = cue_ball.States.PLACING
+	cue_ball.position = START_POS
+	cue_ball.placed_ball.connect(placed_cue_ball)
+
+@rpc("any_peer", "call_local", "reliable")
+func placed_cue_ball(pos):
+	#cue_ball.state = cue_ball.States.PLACED
+	remove_cue_ball()
+	reset_cue_ball()
+	cue_ball.position = pos
+	placing_cue_ball = false
+	cue_ball_potted = false
 
 @rpc("any_peer", "call_local", "reliable")
 func show_cue():
@@ -142,10 +166,10 @@ func hide_cue():
 @rpc("any_peer", "call_local", "reliable")
 func _on_cue_shoot(power) -> void:
 	cue_ball.apply_central_impulse(power)
-	Lobby.players[turn].my_turn = false
-	turn += 1
-	if (turn >= Lobby.players.size()): turn = 0
-	set_up_players()
+	#Lobby.players[turn].my_turn = false
+	#turn += 1
+	#if (turn >= Lobby.players.size()): turn = 0
+	#set_up_players()
 
 
 func potted_ball(body: Ball):

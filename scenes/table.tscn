@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dg6qdx5ayqrnd"]
+[gd_scene load_steps=10 format=3 uid="uid://dg6qdx5ayqrnd"]
 
 [ext_resource type="Texture2D" uid="uid://bjeye47piymlv" path="res://assets/table.png" id="1_02ppr"]
 
@@ -22,6 +22,10 @@ size = Vector2(42, 370)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2f5gb"]
 size = Vector2(40, 282.5)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_02ppr"]
+a = Vector2(227, 297)
+b = Vector2(227, -227)
 
 [node name="Table" type="Sprite2D"]
 texture = ExtResource("1_02ppr")
@@ -74,3 +78,17 @@ shape = SubResource("RectangleShape2D_u03e6")
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="Pockets"]
 position = Vector2(593, 760.75)
 shape = SubResource("RectangleShape2D_2f5gb")
+
+[node name="CueBallZone" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CueBallZone"]
+polygon = PackedVector2Array(1102, 620, 1103, 610, 1106, 600, 1115, 590, 1124, 586, 1134, 584, 1144, 585, 1602, 586, 1107, 901)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CueBallZone"]
+polygon = PackedVector2Array(1144, 94, 1139, 96, 1130, 96, 1122, 93, 1114, 88, 1108, 80, 1104, 72, 1103, 64, 1104, 56, 1104, -306, 1601, 90)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CueBallZone"]
+position = Vector2(644, 304)
+shape = SubResource("SegmentShape2D_02ppr")
