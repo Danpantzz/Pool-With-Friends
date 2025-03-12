@@ -38,11 +38,11 @@ func display_teams():
 	# create player lists
 	for player in Lobby.players:
 		print(player)
-		if player.team == 1:
+		if player.team == 0:
 			var name = Label.new()
 			list_1.add_child(name)
 			name.text = player.name
-		elif player.team == 2:
+		elif player.team == 1:
 			var name = Label.new()
 			list_2.add_child(name)
 			name.text = player.name

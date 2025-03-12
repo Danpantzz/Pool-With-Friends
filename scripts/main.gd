@@ -24,6 +24,7 @@ var placing_cue_ball : bool
 var potted := []
 var potted_this_turn := []
 var game_started := true
+var ball_type_chosen : bool
 
 # multiplayer variables
 var players = 0
@@ -49,8 +50,6 @@ func _process(_delta) -> void:
 	for b in get_tree().get_nodes_in_group("balls"):
 		if (b.linear_velocity.length() > 0.0 and b.linear_velocity.length() < MOVE_THRESHOLD):
 			b.sleeping = true
-			#var ball = inst_to_dict(b)
-			#sleep_ball.rpc(ball)
 			
 		elif b.linear_velocity.length() >= MOVE_THRESHOLD:
 			moving = true
@@ -61,31 +60,43 @@ func _process(_delta) -> void:
 	if not moving:
 		# check if cue ball has been potted and reset it
 		if cue_ball_potted && not placing_cue_ball:
-			#reset_cue_ball()
-			#cue_ball_potted = false
-			#next_turn()
-			next_turn.rpc()
-			scratched.rpc()
-			
-		if cue_ball && (cue_ball.ball_hit == null || cue_ball.ball_hit != current_player.ball_to_hit) && not taking_shot && not placing_cue_ball:
-			if cue_ball.ball_hit:
-				print("Ball hit: ", cue_ball.ball_hit)
-			print("Ball to hit: ", current_player.ball_to_hit)
-			remove_cue_ball.rpc()
 			next_turn.rpc()
 			scratched.rpc()
 		
-		# if (hit correct ball && no balls potted || wrong ball type potted) && not taking_shot && not placing_cue_ball:
-		elif cue_ball && (cue_ball.ball_hit == null || cue_ball.ball_hit == current_player.ball_to_hit) && not taking_shot && not placing_cue_ball:
-			var go_again = false
-			if potted_this_turn.size() > 0:
-				for ball in potted_this_turn:
-					print(ball)
-					if (ball == current_player.ball_to_hit):
-						print("go again")
-						go_again = true
-						break
+		if (ball_type_chosen):
+			if cue_ball && (cue_ball.ball_hit == null || cue_ball.ball_hit != current_player.ball_to_hit) && not taking_shot && not placing_cue_ball:
+				if cue_ball.ball_hit:
+					print("Ball hit: ", cue_ball.ball_hit)
+				print("Ball to hit: ", current_player.ball_to_hit)
+				remove_cue_ball.rpc()
+				next_turn.rpc()
+				scratched.rpc()
 			
+			# if (hit correct ball && no balls potted || wrong ball type potted) && not taking_shot && not placing_cue_ball:
+			elif cue_ball && (cue_ball.ball_hit == null || cue_ball.ball_hit == current_player.ball_to_hit) && not taking_shot && not placing_cue_ball:
+				var go_again = false
+				if potted_this_turn.size() > 0:
+					for ball in potted_this_turn:
+						if (ball == current_player.ball_to_hit):
+							print("go again")
+							go_again = true
+							break
+							
+				if not go_again:
+					next_turn.rpc()
+					show_cue.rpc()
+
+		elif not taking_shot && not placing_cue_ball:
+			var go_again = false
+			
+			if potted_this_turn.size() > 0:
+				current_player.ball_to_hit = potted_this_turn[0]
+				ball_type_chosen = true
+				go_again = true
+				
+				#var ball = inst_to_dict(current_player.ball_to_hit)
+				set_up_ball_type.rpc(current_player.ball_to_hit)
+				
 			if not go_again:
 				next_turn.rpc()
 				show_cue.rpc()
@@ -102,8 +113,6 @@ func _process(_delta) -> void:
 		if taking_shot:
 			taking_shot = false
 			hide_cue.rpc()
-	#else:
-		#cue.set_physics_process(false)
 
 func load_images():
 	for i in range(1, 17, 1):
@@ -116,8 +125,26 @@ func set_up_players():
 	Lobby.players[turn].my_turn = true
 	current_player = Lobby.players[turn]
 
+@rpc("any_peer", "call_local", "reliable")
+func set_up_ball_type(ball_to_hit):
+	#var b = dict_to_inst(ball_to_hit)
+	current_player.ball_to_hit = ball_to_hit
+	
+	for player in Lobby.players:
+		if current_player.ball_to_hit == 0:
+			if player.team == current_player.team:
+				player.ball_to_hit = current_player.ball_to_hit
+			else:
+				player.ball_to_hit = 1 
+		else:
+			if player.team == current_player.team:
+				player.ball_to_hit = current_player.ball_to_hit
+			else:
+				player.ball_to_hit = 0
+
 func new_game():
 	cue_ball_potted = false
+	ball_type_chosen = false
 	clear_balls()
 	generate_balls()
 	reset_cue_ball()
