@@ -117,4 +117,8 @@ horizontal_alignment = 2
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_tefeu")
 
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://b5dw6pxhwl8k6", "uid://di0kdgc8h1g3h", "uid://cl43l1bl6c7pg")
+spawn_path = NodePath("..")
+
 [connection signal="shoot" from="Game/Cue" to="." method="_on_cue_shoot"]
