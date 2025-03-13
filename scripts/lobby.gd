@@ -10,7 +10,7 @@ signal team_changed()
 
 const PORT = 9999
 const DEFAULT_SERVER_IP = "localhost" # IPv4 localhost
-const MAX_CONNECTIONS = 6
+const MAX_CONNECTIONS = 20
 
 var join_address
 
