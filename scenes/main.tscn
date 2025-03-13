@@ -21,6 +21,9 @@ script = ExtResource("1_o5qli")
 ball_scene = ExtResource("2_sugp2")
 place_cue_ball_scene = ExtResource("3_o6xl0")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(600, 339)
+
 [node name="Game" type="Node" parent="."]
 
 [node name="Table" parent="Game" instance=ExtResource("2_0wfyh")]
@@ -48,9 +51,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -600.0
-offset_top = -100.0
-offset_right = 600.0
+offset_left = -960.0
+offset_top = -360.0
+offset_right = 240.0
+offset_bottom = -260.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("5_tbgi4")
@@ -72,6 +76,43 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("5_tbgi4")
 columns = 15
+
+[node name="DisplayPanel" type="Panel" parent="Game"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -1265.0
+offset_top = -1249.0
+offset_right = 545.0
+offset_bottom = -1106.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("5_tbgi4")
+
+[node name="NameLabel" type="Label" parent="Game/DisplayPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 41.0
+offset_top = 27.0
+offset_right = 312.0
+offset_bottom = 119.0
+theme_type_variation = &"Title"
+text = "Current Player: "
+
+[node name="BallType" type="Label" parent="Game/DisplayPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1505.0
+offset_top = 27.0
+offset_right = 1776.0
+offset_bottom = 119.0
+theme_type_variation = &"Title"
+text = "Ball Type: None"
+horizontal_alignment = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Game"]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_tefeu")

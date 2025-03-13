@@ -1,14 +1,16 @@
 extends Control
 
 @onready var address_entry: LineEdit = %AddressEntry
-@onready var main_menu: Panel = $MainMenu
-@onready var lobby: Panel = $Lobby
+@onready var main_menu: Control = %MainMenu
+@onready var lobby: Control = %Lobby
 @onready var list_1: VBoxContainer = %List1
 @onready var list_2: VBoxContainer = %List2
 @onready var start_button: Button = %StartButton
 
 func _ready() -> void:
 	#if not multiplayer.is_server(): start_button.disabled
+	main_menu.show()
+	lobby.hide()
 	
 	Lobby.player_connected.connect(change_ui)
 	Lobby.team_changed.connect(display_teams)

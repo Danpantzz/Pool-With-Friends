@@ -10,6 +10,8 @@ extends Node
 @onready var cue: Cue = %Cue
 @onready var power_bar: ProgressBar = %PowerBar
 @onready var potted_grid: GridContainer = %PottedGrid
+@onready var name_label: Label = %NameLabel
+@onready var ball_type: Label = %BallType
 
 # game variables
 var ball_images := []
@@ -88,7 +90,7 @@ func _process(_delta) -> void:
 							
 				if not go_again:
 					next_turn.rpc()
-					show_cue.rpc()
+					#show_cue.rpc()
 
 		elif not taking_shot && not placing_cue_ball:
 			var go_again = false
@@ -103,7 +105,7 @@ func _process(_delta) -> void:
 				
 			if not go_again:
 				next_turn.rpc()
-				show_cue.rpc()
+				#show_cue.rpc()
 		
 		# fires first, and after every shot
 		if not taking_shot && not placing_cue_ball:
@@ -112,6 +114,7 @@ func _process(_delta) -> void:
 			cue_ball.first_ball_hit = false
 			taking_shot = true
 			show_cue.rpc()
+			set_up_players.rpc()
 			
 	else:
 		if taking_shot:
@@ -124,6 +127,7 @@ func load_images():
 		var ball_image = load(filename)
 		ball_images.append(ball_image)
 
+@rpc("any_peer", "call_local", "reliable")
 func set_up_players():
 	players = Lobby.players.size()
 	team_1_players = []
@@ -136,6 +140,12 @@ func set_up_players():
 			team_2_players.append(player)
 			
 	#if current_player.team == 1:
+	name_label.text = "Current Player: %s" % current_player.name
+	
+	if current_player.ball_to_hit == 0:
+		ball_type.text = "Ball Type: Solids"
+	elif current_player.ball_to_hit == 1:
+		ball_type.text = "Ball Type: Stripes"
 
 @rpc("any_peer", "call_local", "reliable")
 func next_turn():
@@ -143,19 +153,24 @@ func next_turn():
 	set_up_players()
 	
 	# if current player is team 1, go to next team 2 player
-	if current_player.team == 1:
+	if current_player.team == 1 || team_1_players.size() == 0:
+		if team_2_players.size() == 0: return
+		
 		team_2_turns += 1
 		if (team_2_turns >= team_2_players.size()): team_2_turns = 0
 		team_2_players[team_2_turns].my_turn = true
 		current_player = team_2_players[team_2_turns]
 		
 	# if current player is team 2, go to next team 1 player
-	elif current_player.team == 2:
+	elif current_player.team == 2  || team_2_players.size() == 0:
+		if team_1_players.size() == 0: return
+		
 		team_1_turns += 1
 		if (team_1_turns >= team_1_players.size()): team_1_turns = 0
 		team_1_players[team_1_turns].my_turn = true
 		current_player = team_1_players[team_1_turns]
 	
+	set_up_players()
 	#turn += 1
 	#if (turn >= Lobby.players.size()): turn = 0
 	#

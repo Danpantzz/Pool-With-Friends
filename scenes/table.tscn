@@ -32,6 +32,7 @@ texture = ExtResource("1_02ppr")
 centered = false
 
 [node name="Cushions" type="StaticBody2D" parent="."]
+visible = false
 physics_material_override = SubResource("PhysicsMaterial_02ppr")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Cushions"]
@@ -80,6 +81,7 @@ position = Vector2(593, 760.75)
 shape = SubResource("RectangleShape2D_2f5gb")
 
 [node name="CueBallZone" type="StaticBody2D" parent="."]
+visible = false
 collision_layer = 4
 collision_mask = 4
 

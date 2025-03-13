@@ -20,7 +20,7 @@ func _physics_process(delta: float) -> void:
 	if not get_tree().root.get_node("Main").current_player._id == multiplayer.get_unique_id(): return
 	
 	if state == States.PLACING:
-		var pos = get_viewport().get_mouse_position()
+		var pos = get_global_mouse_position()
 		var direction = (pos - position).normalized()
 		
 		if (position.distance_to(pos) > speed):
