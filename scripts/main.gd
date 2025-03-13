@@ -28,9 +28,13 @@ var ball_type_chosen : bool
 
 # multiplayer variables
 var players = 0
-var current_player
+var team_1_players := []
+var team_1_turns := 0
+var team_2_players := []
+var team_2_turns := 0
+var current_player = Lobby.players[0]
 var turn = 0
-
+var current_team
 
 ##### Game Logic #####
 func _ready() -> void:
@@ -122,8 +126,41 @@ func load_images():
 
 func set_up_players():
 	players = Lobby.players.size()
-	Lobby.players[turn].my_turn = true
-	current_player = Lobby.players[turn]
+	team_1_players = []
+	team_2_players = []
+	
+	for player in Lobby.players:
+		if player.team == 1:
+			team_1_players.append(player)
+		elif player.team == 2:
+			team_2_players.append(player)
+			
+	#if current_player.team == 1:
+
+@rpc("any_peer", "call_local", "reliable")
+func next_turn():
+	current_player.my_turn = false
+	set_up_players()
+	
+	# if current player is team 1, go to next team 2 player
+	if current_player.team == 1:
+		team_2_turns += 1
+		if (team_2_turns >= team_2_players.size()): team_2_turns = 0
+		team_2_players[team_2_turns].my_turn = true
+		current_player = team_2_players[team_2_turns]
+		
+	# if current player is team 2, go to next team 1 player
+	elif current_player.team == 2:
+		team_1_turns += 1
+		if (team_1_turns >= team_1_players.size()): team_1_turns = 0
+		team_1_players[team_1_turns].my_turn = true
+		current_player = team_1_players[team_1_turns]
+	
+	#turn += 1
+	#if (turn >= Lobby.players.size()): turn = 0
+	#
+	#Lobby.players[turn].my_turn = true
+	#current_player = Lobby.players[turn]
 
 @rpc("any_peer", "call_local", "reliable")
 func set_up_ball_type(ball_to_hit):
@@ -244,12 +281,6 @@ func _on_cue_shoot(power) -> void:
 	#if (turn >= Lobby.players.size()): turn = 0
 	#set_up_players()
 
-@rpc("any_peer", "call_local", "reliable")
-func next_turn():
-	Lobby.players[turn].my_turn = false
-	turn += 1
-	if (turn >= Lobby.players.size()): turn = 0
-	set_up_players()
 
 func potted_ball(body: Ball):
 	if body == cue_ball:
