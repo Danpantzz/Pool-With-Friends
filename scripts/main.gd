@@ -40,12 +40,13 @@ var current_team
 
 ##### Game Logic #####
 func _ready() -> void:
-	load_images()
-	set_up_players()
-	new_game()
+	if not multiplayer.is_server(): return
+	load_images.rpc()
+	set_up_players.rpc()
+	new_game.rpc()
 	
 	# Set up pockets connection to potted ball function
-	table.get_node("Pockets").body_entered.connect(potted_ball)
+	connect_pockets.rpc()
 
 func _process(_delta) -> void:
 	if not game_started: return
@@ -121,6 +122,7 @@ func _process(_delta) -> void:
 			taking_shot = false
 			hide_cue.rpc()
 
+@rpc("any_peer", "call_local", "reliable")
 func load_images():
 	for i in range(1, 17, 1):
 		var filename = str("res://assets/balls/ball_", i, ".png")
@@ -194,6 +196,7 @@ func set_up_ball_type(ball_to_hit):
 			else:
 				player.ball_to_hit = 0
 
+@rpc("any_peer", "call_local", "reliable")
 func new_game():
 	cue_ball_potted = false
 	ball_type_chosen = false
@@ -203,11 +206,17 @@ func new_game():
 	show_cue()
 	game_started = true
 
+@rpc("any_peer", "call_local", "reliable")
+func connect_pockets():
+	table.get_node("Pockets").body_entered.connect(potted_ball)
+
+@rpc("any_peer", "call_local", "reliable")
 func clear_balls():
 	get_tree().call_group("balls", "queue_free")
 	for b in potted:
 		b.queue_free()
 
+@rpc("any_peer", "call_local", "reliable")
 func generate_balls():
 	# setup game balls
 	var count : int = 0
@@ -217,7 +226,7 @@ func generate_balls():
 		for row in range(rows):
 			var b : Ball = ball_scene.instantiate()
 			var pos = Vector2(250 + (col * (dia)), 267 + (row * (dia)) + (col * dia / 2))
-			add_child.call_deferred(b)
+			add_child(b, true)
 			
 			# set ball to solid or striped
 			if count < 7: b.ball_type = b.Ball_Types.solid
@@ -244,7 +253,7 @@ func remove_cue_ball():
 @rpc("any_peer", "call_local", "reliable")
 func reset_cue_ball():
 	cue_ball = ball_scene.instantiate()
-	add_child(cue_ball)
+	add_child(cue_ball, true)
 	cue_ball.position = START_POS
 	cue_ball.get_node("Sprite2D").texture = ball_images.back()
 	taking_shot = true
@@ -254,7 +263,7 @@ func reset_cue_ball():
 func scratched():
 	placing_cue_ball = true
 	cue_ball_placeholder = place_cue_ball_scene.instantiate()
-	add_child(cue_ball_placeholder)
+	add_child(cue_ball_placeholder, true)
 	cue_ball_placeholder.state = cue_ball_placeholder.States.PLACING
 	cue_ball_placeholder.position = START_POS
 	cue_ball_placeholder.placed_ball.connect(placed_cue_ball)

@@ -28,6 +28,7 @@ a = Vector2(227, 297)
 b = Vector2(227, -227)
 
 [node name="Table" type="Sprite2D"]
+z_index = -1
 texture = ExtResource("1_02ppr")
 centered = false
 

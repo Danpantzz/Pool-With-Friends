@@ -25,7 +25,7 @@ func _on_join_pressed() -> void:
 	Lobby.join_game(address_entry.text)
 
 func change_ui(id, info):
-	if not multiplayer.get_unique_id() == 1: start_button.disabled = true
+	if not multiplayer.is_server(): start_button.disabled = true
 	main_menu.hide()
 	lobby.show()
 	display_teams()
