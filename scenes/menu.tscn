@@ -13,6 +13,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vjb58")
 
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -30,28 +38,6 @@ texture = ExtResource("3_con2f")
 
 [node name="MainMenu" type="Control" parent="."]
 unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 817.0
-offset_top = 331.0
-offset_right = -817.0
-offset_bottom = -331.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_yqeox")
-
-[node name="Panel" type="Panel" parent="MainMenu"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="MainMenu/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,37 +46,65 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_yqeox")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/Panel/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MainMenu/Panel/MarginContainer/VBoxContainer"]
-layout_mode = 2
+[node name="Title" type="Label" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -163.5
+offset_top = 60.0
+offset_right = 163.5
+offset_bottom = 143.0
+grow_horizontal = 2
 theme = ExtResource("1_yqeox")
 theme_type_variation = &"Title"
-text = "Main Menu"
+text = "Pool With Friends"
 horizontal_alignment = 1
 
-[node name="NameEntry" type="LineEdit" parent="MainMenu/Panel/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -108.0
+offset_top = -109.5
+offset_right = 108.0
+offset_bottom = 109.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_yqeox")
 
-[node name="Host" type="Button" parent="MainMenu/Panel/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="NameEntry" type="LineEdit" parent="MainMenu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme = ExtResource("1_yqeox")
+placeholder_text = "Enter Name Here:"
+
+[node name="Host" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_yqeox")
 text = "Host"
 
-[node name="Join" type="Button" parent="MainMenu/Panel/MarginContainer/VBoxContainer"]
+[node name="Join" type="Button" parent="MainMenu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Join"
 
-[node name="AddressEntry" type="LineEdit" parent="MainMenu/Panel/MarginContainer/VBoxContainer"]
+[node name="AddressEntry" type="LineEdit" parent="MainMenu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-placeholder_text = "Enter Address"
+placeholder_text = "Enter Code:"
 
 [node name="Lobby" type="Control" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -160,9 +174,9 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
-[connection signal="text_changed" from="MainMenu/Panel/MarginContainer/VBoxContainer/NameEntry" to="." method="_on_name_entry_text_changed"]
-[connection signal="pressed" from="MainMenu/Panel/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="MainMenu/Panel/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="text_changed" from="MainMenu/MarginContainer/VBoxContainer/NameEntry" to="." method="_on_name_entry_text_changed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="Lobby/Panel/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="Lobby/Panel/MarginContainer/VBoxContainer/HBoxContainer2/Team1Button" to="." method="_on_team_1_button_pressed"]
 [connection signal="pressed" from="Lobby/Panel/MarginContainer/VBoxContainer/HBoxContainer2/Team2Button" to="." method="_on_team_2_button_pressed"]

@@ -17,6 +17,7 @@ properties/1/spawn = false
 properties/1/replication_mode = 1
 
 [node name="PoolBall" type="RigidBody2D" groups=["balls"]]
+z_index = 1
 physics_material_override = SubResource("PhysicsMaterial_0oykc")
 contact_monitor = true
 max_contacts_reported = 1
