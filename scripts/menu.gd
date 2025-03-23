@@ -3,13 +3,18 @@ extends Control
 @onready var address_entry: LineEdit = %AddressEntry
 @onready var main_menu: Control = %MainMenu
 @onready var lobby: Control = %Lobby
+@onready var customize: Control = %Customize
 @onready var list_1: VBoxContainer = %List1
 @onready var list_2: VBoxContainer = %List2
 @onready var start_button: Button = %StartButton
+@onready var main: Control = %Main
+@onready var join_menu: Control = %JoinMenu
 
 func _ready() -> void:
 	#if not multiplayer.is_server(): start_button.disabled
 	main_menu.show()
+	main.show()
+	join_menu.hide()
 	lobby.hide()
 	
 	Lobby.player_connected.connect(change_ui)
@@ -22,6 +27,22 @@ func _on_host_pressed() -> void:
 	Lobby.create_game()
 
 func _on_join_pressed() -> void:
+	main.hide()
+	join_menu.show()
+
+func _on_join_back_button_pressed() -> void:
+	join_menu.hide()
+	main.show()
+
+func _on_customize_pressed() -> void:
+	main_menu.hide()
+	customize.show()
+
+func _on_customize_back_button_pressed() -> void:
+	customize.hide()
+	main_menu.show()
+
+func _on_connect_pressed() -> void:
 	Lobby.join_game(address_entry.text)
 
 func change_ui(id, info):

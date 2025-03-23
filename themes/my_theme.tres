@@ -1,4 +1,7 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://cs0dacdtiio8v"]
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://cs0dacdtiio8v"]
+
+[ext_resource type="StyleBox" uid="uid://baffa4clko31m" path="res://themes/panels/panel_main.tres" id="1_wsmpm"]
+[ext_resource type="StyleBox" uid="uid://beyqmfxtx1rqr" path="res://themes/panels/panel_light.tres" id="2_v6fjm"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_np6xb"]
 
@@ -28,6 +31,10 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
+expand_margin_left = 5.0
+expand_margin_top = 2.0
+expand_margin_right = 5.0
+expand_margin_bottom = 2.0
 shadow_color = Color(0, 0, 0, 0.690196)
 shadow_size = 5
 shadow_offset = Vector2(2, 2)
@@ -76,14 +83,6 @@ expand_margin_top = 5.0
 expand_margin_right = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wsmpm"]
-bg_color = Color(0.00597973, 0.0434432, 0.129346, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.898039, 0.721569, 0.0431373, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_np6xb"]
 bg_color = Color(1, 1, 1, 0.411765)
 
@@ -107,7 +106,9 @@ MarginContainer/constants/margin_bottom = 15
 MarginContainer/constants/margin_left = 15
 MarginContainer/constants/margin_right = 15
 MarginContainer/constants/margin_top = 15
-Panel/styles/panel = SubResource("StyleBoxFlat_wsmpm")
+Panel/styles/panel = ExtResource("1_wsmpm")
+PanelLight/base_type = &"Panel"
+PanelLight/styles/panel = ExtResource("2_v6fjm")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_np6xb")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_s4byv")
 Subtitle/base_type = &"Label"
