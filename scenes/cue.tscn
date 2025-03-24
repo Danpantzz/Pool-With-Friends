@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cl43l1bl6c7pg"]
 
-[ext_resource type="Texture2D" uid="uid://c541kpjb24blo" path="res://assets/cue.png" id="1_nqers"]
+[ext_resource type="Texture2D" uid="uid://c541kpjb24blo" path="res://assets/cues/cue.png" id="1_nqers"]
 [ext_resource type="Script" uid="uid://du5pbnwbnuvqv" path="res://scripts/cue.gd" id="2_lreqr"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lreqr"]

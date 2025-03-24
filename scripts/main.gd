@@ -285,6 +285,10 @@ func placed_cue_ball(pos):
 @rpc("any_peer", "call_local", "reliable")
 func show_cue():
 	cue.set_physics_process(true)
+	
+	#change cue to match players chosen cue
+	cue.texture = load(current_player.cue_image)
+	
 	cue.position = cue_ball.position
 	power_bar.position.x = cue_ball.position.x - (0.5 * power_bar.size.x)
 	power_bar.position.y = cue_ball.position.y + power_bar.size.y

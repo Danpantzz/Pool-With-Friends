@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://dg6qdx5ayqrnd"]
 
 [ext_resource type="Texture2D" uid="uid://t60fb6h2vk3j" path="res://assets/table_empty.png" id="1_eotx8"]
-[ext_resource type="Texture2D" uid="uid://56fnnl1ot668" path="res://assets/cloth.png" id="2_x8522"]
+[ext_resource type="Texture2D" uid="uid://56fnnl1ot668" path="res://assets/cloths/cloth.png" id="2_x8522"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_02ppr"]
 absorbent = true

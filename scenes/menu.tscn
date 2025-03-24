@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://d0ngg5f72i3ay" path="res://scripts/menu.gd" id="1_vjb58"]
 [ext_resource type="Theme" uid="uid://cs0dacdtiio8v" path="res://themes/my_theme.tres" id="1_yqeox"]
 [ext_resource type="Texture2D" uid="uid://bjeye47piymlv" path="res://assets/table.png" id="3_con2f"]
-[ext_resource type="Texture2D" uid="uid://56fnnl1ot668" path="res://assets/cloth.png" id="4_mhnvy"]
-[ext_resource type="Texture2D" uid="uid://c541kpjb24blo" path="res://assets/cue.png" id="5_4ytvr"]
+[ext_resource type="Texture2D" uid="uid://56fnnl1ot668" path="res://assets/cloths/cloth.png" id="4_mhnvy"]
+[ext_resource type="Texture2D" uid="uid://c541kpjb24blo" path="res://assets/cues/cue.png" id="5_4ytvr"]
 [ext_resource type="Texture2D" uid="uid://t60fb6h2vk3j" path="res://assets/table_empty.png" id="5_g3eks"]
 
 [node name="Menu" type="Control"]
@@ -137,6 +137,7 @@ grow_vertical = 2
 
 [node name="AddressEntry" type="LineEdit" parent="MainMenu/JoinMenu"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 833.0
 offset_top = 477.0
 offset_right = 1087.0
@@ -301,6 +302,12 @@ layout_mode = 2
 theme_override_constants/separation = 25
 alignment = 1
 
+[node name="ColorPickerButton" type="ColorPickerButton" parent="Customize/VBoxContainer/ClothCustomizer/HBoxContainer"]
+layout_mode = 2
+text = "Change Color"
+color = Color(0, 0.694118, 0, 1)
+edit_alpha = false
+
 [node name="PrevCloth" type="Button" parent="Customize/VBoxContainer/ClothCustomizer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -377,4 +384,9 @@ text = "Back"
 [connection signal="pressed" from="Lobby/Panel/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="Lobby/Panel/MarginContainer/VBoxContainer/HBoxContainer2/Team1Button" to="." method="_on_team_1_button_pressed"]
 [connection signal="pressed" from="Lobby/Panel/MarginContainer/VBoxContainer/HBoxContainer2/Team2Button" to="." method="_on_team_2_button_pressed"]
+[connection signal="color_changed" from="Customize/VBoxContainer/ClothCustomizer/HBoxContainer/ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]
+[connection signal="pressed" from="Customize/VBoxContainer/ClothCustomizer/HBoxContainer/PrevCloth" to="." method="_on_prev_cloth_pressed"]
+[connection signal="pressed" from="Customize/VBoxContainer/ClothCustomizer/HBoxContainer/NextCloth" to="." method="_on_next_cloth_pressed"]
+[connection signal="pressed" from="Customize/VBoxContainer/CueCustomizer/HBoxContainer/PrevCue" to="." method="_on_prev_cue_pressed"]
+[connection signal="pressed" from="Customize/VBoxContainer/CueCustomizer/HBoxContainer/NextCue" to="." method="_on_next_cue_pressed"]
 [connection signal="pressed" from="Customize/CustomizeBackButton" to="." method="_on_customize_back_button_pressed"]

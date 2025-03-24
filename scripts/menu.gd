@@ -1,5 +1,11 @@
 extends Control
 
+var cue_images: Array = []
+var cloth_images: Array = []
+
+var cue_index := 0
+var cloth_index := 0
+
 @onready var address_entry: LineEdit = %AddressEntry
 @onready var main_menu: Control = %MainMenu
 @onready var lobby: Control = %Lobby
@@ -10,8 +16,16 @@ extends Control
 @onready var main: Control = %Main
 @onready var join_menu: Control = %JoinMenu
 
+@onready var cloth_texture: TextureRect = %ClothTexture
+@onready var cue_texture: TextureRect = %CueTexture
+
 func _ready() -> void:
-	#if not multiplayer.is_server(): start_button.disabled
+	# set up array of cue images
+	load_images(cue_images, "res://assets/cues/")
+	#print(cue_images)
+	# set up array of cloth images
+	
+	
 	main_menu.show()
 	main.show()
 	join_menu.hide()
@@ -23,6 +37,28 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+# iterate through directory, append files to array
+func load_images(array, path):
+	var dir = DirAccess.open(path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():
+				#print("Found directory: " + file_name)
+				pass
+			elif file_name.contains(".import"):
+				pass
+			else:
+				#print("Found file: " + file_name)
+				
+				# add file to array
+				array.append(path + file_name)
+				
+			file_name = dir.get_next()
+	else:
+		print("An error occurred when trying to access the path.")
+
 func _on_host_pressed() -> void:
 	Lobby.create_game()
 
@@ -33,6 +69,26 @@ func _on_join_pressed() -> void:
 func _on_join_back_button_pressed() -> void:
 	join_menu.hide()
 	main.show()
+
+func _on_prev_cloth_pressed() -> void:
+	pass # Replace with function body.
+
+func _on_next_cloth_pressed() -> void:
+	pass # Replace with function body.
+
+# iterate backwards through cue_images
+func _on_prev_cue_pressed() -> void:
+	cue_index -= 1
+	if cue_index < 0: cue_index = cue_images.size() - 1
+	cue_texture.texture = load(cue_images[cue_index])
+	Lobby.player_info.cue_image = cue_images[cue_index]
+
+# iterate forward through cue_images
+func _on_next_cue_pressed() -> void:
+	cue_index += 1
+	if cue_index >= cue_images.size(): cue_index = 0
+	cue_texture.texture = load(cue_images[cue_index])
+	Lobby.player_info.cue_image = cue_images[cue_index]
 
 func _on_customize_pressed() -> void:
 	main_menu.hide()
@@ -85,3 +141,7 @@ func _on_team_2_button_pressed() -> void:
 func _on_start_button_pressed() -> void:
 	Lobby.load_game.rpc("res://scenes/main.tscn")
 	#get_tree().change_scene_to_file("res://scenes/main.tscn")
+
+
+func _on_color_picker_button_color_changed(color: Color) -> void:
+	cloth_texture.modulate = color
