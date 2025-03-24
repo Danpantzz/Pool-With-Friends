@@ -1,15 +1,10 @@
 extends Control
 
-var cue_images: Array = []
-var cloth_images: Array = []
-
-var cue_index := 0
-var cloth_index := 0
+@export var customize_scene: PackedScene
 
 @onready var address_entry: LineEdit = %AddressEntry
 @onready var main_menu: Control = %MainMenu
 @onready var lobby: Control = %Lobby
-@onready var customize: Control = %Customize
 @onready var list_1: VBoxContainer = %List1
 @onready var list_2: VBoxContainer = %List2
 @onready var start_button: Button = %StartButton
@@ -18,22 +13,10 @@ var cloth_index := 0
 @onready var cloth: TextureRect = %Cloth
 @onready var cushions: TextureRect = %Cushions
 
-@onready var cloth_texture: TextureRect = %ClothTexture
-@onready var cushions_texture: TextureRect = %CushionsTexture
-@onready var cue_texture: TextureRect = %CueTexture
-@onready var cloth_color_picker: ColorPickerButton = %ClothColorPicker
-@onready var cushions_color_picker: ColorPickerButton = %CushionsColorPicker
-
 func _ready() -> void:
-	# set up array of cue images
-	load_images(cue_images, "res://assets/cues/")
-	#print(cue_images)
-	# set up array of cloth images
 	
-	cloth_texture.modulate = cloth_color_picker.color
-	cushions_texture.modulate = cushions_color_picker.color
-	cloth.modulate = cloth_color_picker.color
-	cushions.modulate = cushions_color_picker.color
+	cloth.modulate = Lobby.player_info.cloth_color
+	cushions.modulate = Lobby.player_info.cushion_color
 	
 	main_menu.show()
 	main.show()
@@ -46,28 +29,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-# iterate through directory, append files to array
-func load_images(array, path):
-	var dir = DirAccess.open(path)
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if dir.current_is_dir():
-				#print("Found directory: " + file_name)
-				pass
-			elif file_name.contains(".import"):
-				pass
-			else:
-				#print("Found file: " + file_name)
-				
-				# add file to array
-				array.append(path + file_name)
-				
-			file_name = dir.get_next()
-	else:
-		print("An error occurred when trying to access the path.")
-
 func _on_host_pressed() -> void:
 	Lobby.create_game()
 
@@ -79,33 +40,8 @@ func _on_join_back_button_pressed() -> void:
 	join_menu.hide()
 	main.show()
 
-func _on_prev_cloth_pressed() -> void:
-	pass # Replace with function body.
-
-func _on_next_cloth_pressed() -> void:
-	pass # Replace with function body.
-
-# iterate backwards through cue_images
-func _on_prev_cue_pressed() -> void:
-	cue_index -= 1
-	if cue_index < 0: cue_index = cue_images.size() - 1
-	cue_texture.texture = load(cue_images[cue_index])
-	Lobby.player_info.cue_image = cue_images[cue_index]
-
-# iterate forward through cue_images
-func _on_next_cue_pressed() -> void:
-	cue_index += 1
-	if cue_index >= cue_images.size(): cue_index = 0
-	cue_texture.texture = load(cue_images[cue_index])
-	Lobby.player_info.cue_image = cue_images[cue_index]
-
 func _on_customize_pressed() -> void:
-	main_menu.hide()
-	customize.show()
-
-func _on_customize_back_button_pressed() -> void:
-	customize.hide()
-	main_menu.show()
+	get_tree().change_scene_to_packed(customize_scene)
 
 func _on_connect_pressed() -> void:
 	Lobby.join_game(address_entry.text)
@@ -134,7 +70,6 @@ func display_teams():
 			var name = Label.new()
 			list_2.add_child(name)
 			name.text = player.name
-			
 
 func _on_name_entry_text_changed(new_text: String) -> void:
 	Lobby.player_info.name = new_text
@@ -142,22 +77,9 @@ func _on_name_entry_text_changed(new_text: String) -> void:
 func _on_team_1_button_pressed() -> void:
 	Lobby.change_team.rpc(1)
 
-
 func _on_team_2_button_pressed() -> void:
 	Lobby.change_team.rpc(2)
-
 
 func _on_start_button_pressed() -> void:
 	Lobby.load_game.rpc("res://scenes/main.tscn")
 	#get_tree().change_scene_to_file("res://scenes/main.tscn")
-
-func _on_cloth_color_picker_color_changed(color: Color) -> void:
-	cloth_texture.modulate = color
-	cloth.modulate = color
-	Lobby.player_info.cloth_color = color
-
-
-func _on_cushions_color_picker_color_changed(color: Color) -> void:
-	cushions_texture.modulate = color
-	cushions.modulate = color
-	Lobby.player_info.cushion_color = color

@@ -18,6 +18,7 @@ properties/1/spawn = false
 properties/1/replication_mode = 1
 
 [node name="CueBall" type="StaticBody2D"]
+z_index = 1
 collision_layer = 5
 collision_mask = 5
 physics_material_override = SubResource("PhysicsMaterial_0oykc")

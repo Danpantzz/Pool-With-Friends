@@ -1,0 +1,155 @@
+[gd_scene load_steps=7 format=3 uid="uid://dwe0yxvunmski"]
+
+[ext_resource type="Texture2D" uid="uid://chile3qhu0omv" path="res://assets/cloths/cloth.png" id="1_1dkqy"]
+[ext_resource type="Script" uid="uid://chdjgl3uiqwij" path="res://scripts/customize.gd" id="1_jyqg6"]
+[ext_resource type="Texture2D" uid="uid://bcnk881n4482p" path="res://assets/cushions.png" id="2_jyqg6"]
+[ext_resource type="Texture2D" uid="uid://dj1huyh5d3vya" path="res://assets/table_empty.png" id="3_kwfij"]
+[ext_resource type="Theme" uid="uid://cs0dacdtiio8v" path="res://themes/my_theme.tres" id="4_cjuar"]
+[ext_resource type="Texture2D" uid="uid://c541kpjb24blo" path="res://assets/cues/cue.png" id="5_ld38f"]
+
+[node name="Customize" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jyqg6")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="ClothCustomizer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/ClothCustomizer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ClothTexture" type="TextureRect" parent="VBoxContainer/ClothCustomizer/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("1_1dkqy")
+stretch_mode = 5
+
+[node name="CushionsTexture" type="TextureRect" parent="VBoxContainer/ClothCustomizer/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_jyqg6")
+stretch_mode = 5
+
+[node name="Table" type="TextureRect" parent="VBoxContainer/ClothCustomizer/CenterContainer"]
+layout_mode = 2
+texture = ExtResource("3_kwfij")
+stretch_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ClothCustomizer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+alignment = 1
+
+[node name="ClothColorPicker" type="ColorPickerButton" parent="VBoxContainer/ClothCustomizer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Change Color"
+color = Color(0.180392, 0.666667, 0.188235, 1)
+edit_alpha = false
+
+[node name="CushionsColorPicker" type="ColorPickerButton" parent="VBoxContainer/ClothCustomizer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Change Color"
+color = Color(0.352941, 0.627451, 0.172549, 1)
+edit_alpha = false
+
+[node name="PrevCloth" type="Button" parent="VBoxContainer/ClothCustomizer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = " < Previous "
+
+[node name="NextCloth" type="Button" parent="VBoxContainer/ClothCustomizer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = " Next > "
+
+[node name="CueCustomizer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/CueCustomizer"]
+layout_mode = 2
+theme_override_constants/margin_left = 400
+theme_override_constants/margin_right = 400
+
+[node name="Case" type="Panel" parent="VBoxContainer/CueCustomizer/MarginContainer"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme = ExtResource("4_cjuar")
+theme_type_variation = &"PanelLight"
+
+[node name="CueTexture" type="TextureRect" parent="VBoxContainer/CueCustomizer/MarginContainer/Case"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 292.0
+offset_top = 1.0
+offset_right = 292.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_ld38f")
+stretch_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/CueCustomizer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+alignment = 1
+
+[node name="PrevCue" type="Button" parent="VBoxContainer/CueCustomizer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = " < Previous "
+
+[node name="NextCue" type="Button" parent="VBoxContainer/CueCustomizer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = " Next > "
+
+[node name="CustomizeBackButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -96.0
+offset_right = 133.0
+offset_bottom = -31.0
+grow_vertical = 0
+text = "Back"
+
+[connection signal="color_changed" from="VBoxContainer/ClothCustomizer/HBoxContainer/ClothColorPicker" to="." method="_on_cloth_color_picker_color_changed"]
+[connection signal="color_changed" from="VBoxContainer/ClothCustomizer/HBoxContainer/CushionsColorPicker" to="." method="_on_cushions_color_picker_color_changed"]
+[connection signal="pressed" from="VBoxContainer/ClothCustomizer/HBoxContainer/PrevCloth" to="." method="_on_prev_cloth_pressed"]
+[connection signal="pressed" from="VBoxContainer/ClothCustomizer/HBoxContainer/NextCloth" to="." method="_on_next_cloth_pressed"]
+[connection signal="pressed" from="VBoxContainer/CueCustomizer/HBoxContainer/PrevCue" to="." method="_on_prev_cue_pressed"]
+[connection signal="pressed" from="VBoxContainer/CueCustomizer/HBoxContainer/NextCue" to="." method="_on_next_cue_pressed"]
+[connection signal="pressed" from="CustomizeBackButton" to="." method="_on_customize_back_button_pressed"]
