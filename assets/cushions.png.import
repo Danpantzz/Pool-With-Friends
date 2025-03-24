@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjeye47piymlv"
-path="res://.godot/imported/table.png-14b755b19e8ff9a139cf951e8fcb8e14.ctex"
+uid="uid://bcnk881n4482p"
+path="res://.godot/imported/cushions.png-d42d02a5fbc5a9a12683b90a8e3575f2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/table.png"
-dest_files=["res://.godot/imported/table.png-14b755b19e8ff9a139cf951e8fcb8e14.ctex"]
+source_file="res://assets/cushions.png"
+dest_files=["res://.godot/imported/cushions.png-d42d02a5fbc5a9a12683b90a8e3575f2.ctex"]
 
 [params]
 

@@ -15,9 +15,14 @@ var cloth_index := 0
 @onready var start_button: Button = %StartButton
 @onready var main: Control = %Main
 @onready var join_menu: Control = %JoinMenu
+@onready var cloth: TextureRect = %Cloth
+@onready var cushions: TextureRect = %Cushions
 
 @onready var cloth_texture: TextureRect = %ClothTexture
+@onready var cushions_texture: TextureRect = %CushionsTexture
 @onready var cue_texture: TextureRect = %CueTexture
+@onready var cloth_color_picker: ColorPickerButton = %ClothColorPicker
+@onready var cushions_color_picker: ColorPickerButton = %CushionsColorPicker
 
 func _ready() -> void:
 	# set up array of cue images
@@ -25,6 +30,10 @@ func _ready() -> void:
 	#print(cue_images)
 	# set up array of cloth images
 	
+	cloth_texture.modulate = cloth_color_picker.color
+	cushions_texture.modulate = cushions_color_picker.color
+	cloth.modulate = cloth_color_picker.color
+	cushions.modulate = cushions_color_picker.color
 	
 	main_menu.show()
 	main.show()
@@ -142,6 +151,13 @@ func _on_start_button_pressed() -> void:
 	Lobby.load_game.rpc("res://scenes/main.tscn")
 	#get_tree().change_scene_to_file("res://scenes/main.tscn")
 
-
-func _on_color_picker_button_color_changed(color: Color) -> void:
+func _on_cloth_color_picker_color_changed(color: Color) -> void:
 	cloth_texture.modulate = color
+	cloth.modulate = color
+	Lobby.player_info.cloth_color = color
+
+
+func _on_cushions_color_picker_color_changed(color: Color) -> void:
+	cushions_texture.modulate = color
+	cushions.modulate = color
+	Lobby.player_info.cushion_color = color
