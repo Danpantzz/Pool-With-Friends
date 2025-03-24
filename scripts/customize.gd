@@ -14,6 +14,7 @@ var cloth_index := 0
 
 @onready var cloth_color_picker: ColorPickerButton = %ClothColorPicker
 @onready var cushions_color_picker: ColorPickerButton = %CushionsColorPicker
+@onready var check_button: CheckButton = $Panel/CheckButton
 
 func _ready() -> void:
 	# set up array of cue images
@@ -26,6 +27,7 @@ func _ready() -> void:
 	cushions_texture.modulate = Lobby.player_info.cushion_color
 	cushions_color_picker.color = Lobby.player_info.cushion_color
 	
+	check_button.button_pressed = Lobby.player_info.show_player_tables
 
 # iterate through directory, append files to array
 func load_images(array, path):
@@ -81,3 +83,7 @@ func _on_cushions_color_picker_color_changed(color: Color) -> void:
 	cushions_texture.modulate = color
 	#cushions.modulate = color
 	Lobby.player_info.cushion_color = color
+
+
+func _on_check_button_toggled(toggled_on: bool) -> void:
+	Lobby.player_info.show_player_tables = toggled_on

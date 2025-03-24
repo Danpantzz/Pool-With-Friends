@@ -143,8 +143,13 @@ func set_up_players():
 			
 	#if current_player.team == 1:
 	name_label.text = "Current Player: %s" % current_player.name
-	table.get_node("Cloth").modulate = current_player.cloth_color
-	table.get_node("Cushion").modulate = current_player.cushion_color
+	
+	if Lobby.player_info.show_player_tables:
+		table.get_node("Cloth").modulate = current_player.cloth_color
+		table.get_node("Cushion").modulate = current_player.cushion_color
+	else:
+		table.get_node("Cloth").modulate = Lobby.player_info.cloth_color
+		table.get_node("Cushion").modulate = Lobby.player_info.cushion_color
 	
 	if current_player.ball_to_hit == 0:
 		ball_type.text = "Ball Type: Solids"

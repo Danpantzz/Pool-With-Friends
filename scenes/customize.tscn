@@ -24,6 +24,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="CheckButton" type="CheckButton" parent="Panel"]
+layout_mode = 1
+offset_left = 44.0
+offset_top = 66.0
+offset_right = 275.0
+offset_bottom = 142.0
+text = "Show Other Players' Tables"
+autowrap_mode = 2
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -146,6 +155,7 @@ offset_bottom = -31.0
 grow_vertical = 0
 text = "Back"
 
+[connection signal="toggled" from="Panel/CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="color_changed" from="VBoxContainer/ClothCustomizer/HBoxContainer/ClothColorPicker" to="." method="_on_cloth_color_picker_color_changed"]
 [connection signal="color_changed" from="VBoxContainer/ClothCustomizer/HBoxContainer/CushionsColorPicker" to="." method="_on_cushions_color_picker_color_changed"]
 [connection signal="pressed" from="VBoxContainer/ClothCustomizer/HBoxContainer/PrevCloth" to="." method="_on_prev_cloth_pressed"]
