@@ -8,6 +8,8 @@ var cloth_images: Array = []
 var cue_index := 0
 var cloth_index := 0
 
+@onready var file_dialog: FileDialog = %FileDialog
+
 @onready var cloth_texture: TextureRect = %ClothTexture
 @onready var cushions_texture: TextureRect = %CushionsTexture
 @onready var cue_texture: TextureRect = %CueTexture
@@ -84,6 +86,8 @@ func _on_cushions_color_picker_color_changed(color: Color) -> void:
 	#cushions.modulate = color
 	Lobby.player_info.cushion_color = color
 
-
 func _on_check_button_toggled(toggled_on: bool) -> void:
 	Lobby.player_info.show_player_tables = toggled_on
+
+func _on_choose_file_pressed() -> void:
+	file_dialog.popup()

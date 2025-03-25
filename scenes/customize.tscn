@@ -16,6 +16,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jyqg6")
 
+[node name="FileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a File"
+initial_position = 1
+size = Vector2i(575, 360)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+root_subfolder = "C:\\Users\\Dan's PC\\Pictures"
+
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -136,11 +146,25 @@ text = " Next > "
 [node name="CheckButton" type="CheckButton" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
-offset_left = 44.0
-offset_top = 66.0
-offset_right = 275.0
-offset_bottom = 142.0
+offset_left = 45.0
+offset_top = 60.0
+offset_right = 276.0
+offset_bottom = 136.0
 text = "Show Other Players' Tables"
+autowrap_mode = 2
+
+[node name="ChooseFile" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -276.0
+offset_top = 60.0
+offset_right = -45.0
+offset_bottom = 136.0
+grow_horizontal = 0
+text = "Upload Image as Cloth"
 autowrap_mode = 2
 
 [node name="CustomizeBackButton" type="Button" parent="."]
@@ -163,4 +187,5 @@ text = "Back"
 [connection signal="pressed" from="VBoxContainer/CueCustomizer/HBoxContainer/PrevCue" to="." method="_on_prev_cue_pressed"]
 [connection signal="pressed" from="VBoxContainer/CueCustomizer/HBoxContainer/NextCue" to="." method="_on_next_cue_pressed"]
 [connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="pressed" from="ChooseFile" to="." method="_on_choose_file_pressed"]
 [connection signal="pressed" from="CustomizeBackButton" to="." method="_on_customize_back_button_pressed"]
