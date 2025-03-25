@@ -14,7 +14,7 @@ var cloth_index := 0
 
 @onready var cloth_color_picker: ColorPickerButton = %ClothColorPicker
 @onready var cushions_color_picker: ColorPickerButton = %CushionsColorPicker
-@onready var check_button: CheckButton = $Panel/CheckButton
+@onready var check_button: CheckButton = %CheckButton
 
 func _ready() -> void:
 	# set up array of cue images

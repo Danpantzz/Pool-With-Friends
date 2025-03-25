@@ -24,15 +24,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CheckButton" type="CheckButton" parent="Panel"]
-layout_mode = 1
-offset_left = 44.0
-offset_top = 66.0
-offset_right = 275.0
-offset_bottom = 142.0
-text = "Show Other Players' Tables"
-autowrap_mode = 2
-
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -142,6 +133,16 @@ unique_name_in_owner = true
 layout_mode = 2
 text = " Next > "
 
+[node name="CheckButton" type="CheckButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 44.0
+offset_top = 66.0
+offset_right = 275.0
+offset_bottom = 142.0
+text = "Show Other Players' Tables"
+autowrap_mode = 2
+
 [node name="CustomizeBackButton" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
@@ -155,11 +156,11 @@ offset_bottom = -31.0
 grow_vertical = 0
 text = "Back"
 
-[connection signal="toggled" from="Panel/CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="color_changed" from="VBoxContainer/ClothCustomizer/HBoxContainer/ClothColorPicker" to="." method="_on_cloth_color_picker_color_changed"]
 [connection signal="color_changed" from="VBoxContainer/ClothCustomizer/HBoxContainer/CushionsColorPicker" to="." method="_on_cushions_color_picker_color_changed"]
 [connection signal="pressed" from="VBoxContainer/ClothCustomizer/HBoxContainer/PrevCloth" to="." method="_on_prev_cloth_pressed"]
 [connection signal="pressed" from="VBoxContainer/ClothCustomizer/HBoxContainer/NextCloth" to="." method="_on_next_cloth_pressed"]
 [connection signal="pressed" from="VBoxContainer/CueCustomizer/HBoxContainer/PrevCue" to="." method="_on_prev_cue_pressed"]
 [connection signal="pressed" from="VBoxContainer/CueCustomizer/HBoxContainer/NextCue" to="." method="_on_next_cue_pressed"]
+[connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="pressed" from="CustomizeBackButton" to="." method="_on_customize_back_button_pressed"]
