@@ -101,9 +101,10 @@ func _on_player_connected(id):
 	#var cue_image = cue_texture.get_data()
 	#var cue_data = cue_image.get_data()
 	#
-	#var cloth_texture = load(player_info.cloth_image) as ImageTexture
-	#var cloth_image = cloth_texture.get_data()
-	#var cloth_data = cloth_image.get_data()
+	#var cloth_data
+	#if player_info.cloth_image:
+		#var cloth_image := player_info.cloth_image
+		#cloth_data = cloth_image.get_data()
 	
 	# encrypt data
 	var info = inst_to_dict(player_info)
@@ -116,24 +117,15 @@ func _register_player(new_player_info):
 	# decrypt data
 	var info = dict_to_inst(new_player_info)
 	
-	# convert data to images
-	#var cue_image = Image.new()
-	#var cue_image_error = cue_image.load_png_from_buffer(cue_data)
-	#if cue_image_error != OK:
-		#push_error("An error occurred while trying to display the image.")
-	#var cue_texture = ImageTexture.new()
-	#cue_texture.create_from_image(cue_image)
-	#
-	#info.cue_image = load(cue_texture)
-	#
-	#var cloth_image = Image.new()
-	#var cloth_image_error = cloth_image.load_png_from_buffer(cloth_data)
-	#if cloth_image_error != OK:
-		#push_error("An error occurred while trying to display the image.")
-	#var cloth_texture = ImageTexture.new()
-	#cloth_texture.create_from_image(cloth_image)
-	#
-	#info.cloth_image = load(cloth_texture)
+	#if cloth_data:
+		#var cloth_image = Image.new()
+		#var cloth_image_error = cloth_image.load_png_from_buffer(cloth_data)
+		#if cloth_image_error != OK:
+			#push_error("An error occurred while trying to display the image.")
+		##var cloth_texture = ImageTexture.new()
+		##cloth_texture.create_from_image(cloth_image)
+		##
+		#info.cloth_image = cloth_image
 	
 	var new_player_id = multiplayer.get_remote_sender_id()
 	#players[new_player_id] = info

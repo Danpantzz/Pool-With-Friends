@@ -145,6 +145,12 @@ func set_up_players():
 	name_label.text = "Current Player: %s" % current_player.name
 	
 	if Lobby.player_info.show_player_tables:
+		if current_player.cloth_image:
+			#var image_texture = ImageTexture.new()
+			#image_texture.set_image(current_player.cloth_image)
+			#image_texture.set_size_override(Vector2(1100, 580))
+			table.get_node("Cloth").texture = Helpers.load_image_from_buffer(current_player.cloth_image)
+		
 		table.get_node("Cloth").modulate = current_player.cloth_color
 		table.get_node("Cushion").modulate = current_player.cushion_color
 	else:

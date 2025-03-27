@@ -21,8 +21,15 @@ var cloth_index := 0
 func _ready() -> void:
 	# set up array of cue images
 	load_images(cue_images, "res://assets/cues/")
-	#print(cue_images)
+	
 	# set up array of cloth images
+	load_images(cloth_images, "res://assets/cloths/")
+	
+	if Lobby.player_info.cloth_image:
+		#var image_texture = ImageTexture.new()
+		#image_texture.set_image(Lobby.player_info.cloth_image)
+		#image_texture.set_size_override(Vector2(1100, 580))
+		cloth_texture.texture = Helpers.load_image_from_buffer(Lobby.player_info.cloth_image)
 	
 	cloth_texture.modulate = Lobby.player_info.cloth_color
 	cloth_color_picker.color = Lobby.player_info.cloth_color
@@ -91,3 +98,42 @@ func _on_check_button_toggled(toggled_on: bool) -> void:
 
 func _on_choose_file_pressed() -> void:
 	file_dialog.popup()
+
+func _on_file_dialog_file_selected(path: String) -> void:
+	#Lobby.player_info.cloth_image = path
+	
+	#var image = Image.new()
+	#image.load(path)
+	#image.save_png("res://assets/cloths/%s_cloth" % Lobby.player_info._id)
+	#Lobby.player_info.cloth_image = image
+	
+	#var image_texture = ImageTexture.new()
+	#image_texture.set_image(image)
+	#image_texture.set_size_override(Vector2(1100, 580))
+	cloth_texture.texture = load_image(path)
+	
+	cloth_color_picker.color = Color.WHITE
+	cloth_texture.modulate = Color.WHITE
+	Lobby.player_info.cloth_color = Color.WHITE
+
+func load_image(path: String):
+	if path.begins_with('res'):
+		return load(path)
+	else:
+		var file = FileAccess.open(path, FileAccess.READ)
+		if FileAccess.get_open_error() != OK:
+			print(str("Could not load image at: ",path))
+			return
+		var buffer = file.get_buffer(file.get_length())
+		
+		Lobby.player_info.cloth_image = buffer
+		
+		var image = Image.new()
+		var error = image.load_png_from_buffer(buffer)
+		if error != OK:
+			print(str("Could not load image at: ",path," with error: ",error))
+			return
+		var texture = ImageTexture.new()
+		texture.set_image(image)
+		texture.set_size_override(Vector2(1100, 580))
+		return texture

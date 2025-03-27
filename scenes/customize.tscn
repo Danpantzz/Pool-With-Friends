@@ -24,7 +24,8 @@ size = Vector2i(575, 360)
 ok_button_text = "Open"
 file_mode = 0
 access = 2
-root_subfolder = "C:\\Users\\Dan's PC\\Pictures"
+root_subfolder = "C:\\Users\\Dan's PC\\Pictures\\Backgrounds"
+filters = PackedStringArray("*.png")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -180,6 +181,7 @@ offset_bottom = -31.0
 grow_vertical = 0
 text = "Back"
 
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
 [connection signal="color_changed" from="VBoxContainer/ClothCustomizer/HBoxContainer/ClothColorPicker" to="." method="_on_cloth_color_picker_color_changed"]
 [connection signal="color_changed" from="VBoxContainer/ClothCustomizer/HBoxContainer/CushionsColorPicker" to="." method="_on_cushions_color_picker_color_changed"]
 [connection signal="pressed" from="VBoxContainer/ClothCustomizer/HBoxContainer/PrevCloth" to="." method="_on_prev_cloth_pressed"]

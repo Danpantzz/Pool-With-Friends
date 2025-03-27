@@ -15,6 +15,12 @@ extends Control
 
 func _ready() -> void:
 	
+	if Lobby.player_info.cloth_image:
+		#var image_texture = ImageTexture.new()
+		#image_texture.set_image(Lobby.player_info.cloth_image)
+		#image_texture.set_size_override(Vector2(1100, 580))
+		cloth.texture = Helpers.load_image_from_buffer(Lobby.player_info.cloth_image)
+	
 	cloth.modulate = Lobby.player_info.cloth_color
 	cushions.modulate = Lobby.player_info.cushion_color
 	
