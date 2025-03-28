@@ -7,12 +7,14 @@ var cloth_images: Array = []
 
 var cue_index := 0
 var cloth_index := 0
+var cue_on_display
 
 @onready var file_dialog: FileDialog = %FileDialog
+@onready var case: Panel = %Case
 
 @onready var cloth_texture: TextureRect = %ClothTexture
 @onready var cushions_texture: TextureRect = %CushionsTexture
-@onready var cue_texture: TextureRect = %CueTexture
+#@onready var cue_texture: TextureRect = %CueTexture
 
 @onready var cloth_color_picker: ColorPickerButton = %ClothColorPicker
 @onready var cushions_color_picker: ColorPickerButton = %CushionsColorPicker
@@ -20,10 +22,11 @@ var cloth_index := 0
 
 func _ready() -> void:
 	# set up array of cue images
-	load_images(cue_images, "assets/cues/")
+	load_images(cue_images, "res://scenes/cues/")
 	
+	cue_on_display = case.get_child(0)
 	# set up array of cloth images
-	load_images(cloth_images, "assets/cloths/")
+	#load_images(cloth_images, "res://assets/cloths/")
 	
 	if Lobby.player_info.cloth_image:
 		#var image_texture = ImageTexture.new()
@@ -52,9 +55,9 @@ func load_images(array, path):
 				pass
 			else:
 				#print("Found file: " + file_name)
-				
+				var cue = (path + file_name)
 				# add file to array
-				array.append(path + file_name)
+				array.append(cue)
 				
 			file_name = dir.get_next()
 	else:
@@ -70,14 +73,26 @@ func _on_next_cloth_pressed() -> void:
 func _on_prev_cue_pressed() -> void:
 	cue_index -= 1
 	if cue_index < 0: cue_index = cue_images.size() - 1
-	cue_texture.texture = load(cue_images[cue_index])
+	#cue_texture.texture = load(cue_images[cue_index])
+	if (cue_on_display):
+		case.remove_child(cue_on_display)
+	cue_on_display = load(cue_images[cue_index]).instantiate()
+	case.add_child(cue_on_display)
+	cue_on_display.position = Vector2(890, 45)
+	
 	Lobby.player_info.cue_image = cue_images[cue_index]
 
 # iterate forward through cue_images
 func _on_next_cue_pressed() -> void:
 	cue_index += 1
 	if cue_index >= cue_images.size(): cue_index = 0
-	cue_texture.texture = load(cue_images[cue_index])
+	#cue_texture.texture = load(cue_images[cue_index])
+	if (cue_on_display):
+		case.remove_child(cue_on_display)
+	cue_on_display = load(cue_images[cue_index]).instantiate()
+	case.add_child(cue_on_display)
+	cue_on_display.position = Vector2(890, 45)
+	
 	Lobby.player_info.cue_image = cue_images[cue_index]
 
 func _on_customize_back_button_pressed() -> void:

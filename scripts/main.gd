@@ -7,7 +7,7 @@ extends Node
 #@onready var lobby: PanelContainer = $CanvasLayer/Lobby
 
 @onready var table: Sprite2D = %Table
-@onready var cue: Cue = %Cue
+@onready var cue: Cue = %CueBase
 @onready var power_bar: ProgressBar = %PowerBar
 @onready var potted_grid: GridContainer = %PottedGrid
 @onready var name_label: Label = %NameLabel
@@ -15,6 +15,7 @@ extends Node
 
 # game variables
 var ball_images := []
+var current_cue
 var cue_ball
 var cue_ball_placeholder
 const START_POS := Vector2(890, 340)
@@ -299,8 +300,12 @@ func placed_cue_ball(pos):
 func show_cue():
 	cue.set_physics_process(true)
 	
+	if current_cue:
+		cue.remove_child(current_cue)
+	current_cue = load(current_player.cue_image).instantiate()
+	cue.add_child(current_cue)
 	#change cue to match players chosen cue
-	cue.texture = load(current_player.cue_image)
+#	cue.texture = load(current_player.cue_image)
 	
 	cue.position = cue_ball.position
 	power_bar.position.x = cue_ball.position.x - (0.5 * power_bar.size.x)

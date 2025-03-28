@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyl5t4pmswtdq"]
+
+[ext_resource type="Texture2D" uid="uid://bfv2ofr7fmxt" path="res://assets/cues/cue_pink.svg" id="1_2txpp"]
+
+[node name="CuePink" type="Sprite2D"]
+texture = ExtResource("1_2txpp")
+offset = Vector2(-310, 0)

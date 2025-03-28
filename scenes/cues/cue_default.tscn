@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpky7lm8m476k"]
+
+[ext_resource type="Texture2D" uid="uid://bc5v47iqbjvvn" path="res://assets/cues/cue.svg" id="2_u765v"]
+
+[node name="CueDefault" type="Sprite2D"]
+texture = ExtResource("2_u765v")
+offset = Vector2(-310, 0)
