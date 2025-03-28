@@ -12,7 +12,7 @@ const PORT = 9999
 const DEFAULT_SERVER_IP = "localhost" # IPv4 localhost
 const MAX_CONNECTIONS = 20
 
-var join_address
+var join_address = ""
 
 var peer = ENetMultiplayerPeer.new()
 

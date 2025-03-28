@@ -12,6 +12,7 @@ extends Control
 @onready var join_menu: Control = %JoinMenu
 @onready var cloth: TextureRect = %Cloth
 @onready var cushions: TextureRect = %Cushions
+@onready var join_code: Label = %JoinCode
 
 func _ready() -> void:
 	
@@ -33,7 +34,7 @@ func _ready() -> void:
 	Lobby.team_changed.connect(display_teams)
 	
 func _process(delta: float) -> void:
-	pass
+	if multiplayer.is_server(): join_code.text = "Code: %s" % Lobby.join_address
 
 func _on_host_pressed() -> void:
 	Lobby.create_game()
@@ -53,7 +54,11 @@ func _on_connect_pressed() -> void:
 	Lobby.join_game(address_entry.text)
 
 func change_ui(id, info):
-	if not multiplayer.is_server(): start_button.disabled = true
+	if not multiplayer.is_server(): 
+		start_button.disabled = true
+		join_code.hide()
+	else:
+		join_code.text = "Code: %s" % Lobby.join_address
 	main_menu.hide()
 	lobby.show()
 	display_teams()

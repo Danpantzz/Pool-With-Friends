@@ -195,7 +195,6 @@ text = "Back"
 
 [node name="Lobby" type="Control" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -226,6 +225,12 @@ theme = ExtResource("1_yqeox")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Lobby/Panel/MarginContainer"]
 layout_mode = 2
+
+[node name="JoinCode" type="Label" parent="Lobby/Panel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Code: "
+horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="Lobby/Panel/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
