@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c541kpjb24blo"
-path="res://.godot/imported/cue.png-729781411b11a6c941e810e94d317b56.ctex"
+uid="uid://bgtqbun06c6do"
+path="res://.godot/imported/cue_red.svg-399fc22a438fedc3561fed15d1f36744.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cues/cue.png"
-dest_files=["res://.godot/imported/cue.png-729781411b11a6c941e810e94d317b56.ctex"]
+source_file="res://assets/cues/cue_red.svg"
+dest_files=["res://.godot/imported/cue_red.svg-399fc22a438fedc3561fed15d1f36744.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=3.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

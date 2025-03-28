@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjelj4v5fdg3u"
-path="res://.godot/imported/cue_pink.png-775862c7bdc433a4bcea452db00d7aa2.ctex"
+uid="uid://bfv2ofr7fmxt"
+path="res://.godot/imported/cue_pink.svg-ecb4719e5870e44bcf009f2208925bba.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cues/cue_pink.png"
-dest_files=["res://.godot/imported/cue_pink.png-775862c7bdc433a4bcea452db00d7aa2.ctex"]
+source_file="res://assets/cues/cue_pink.svg"
+dest_files=["res://.godot/imported/cue_pink.svg-ecb4719e5870e44bcf009f2208925bba.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=3.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

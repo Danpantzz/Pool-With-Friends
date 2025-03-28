@@ -20,10 +20,10 @@ var cloth_index := 0
 
 func _ready() -> void:
 	# set up array of cue images
-	load_images(cue_images, "res://assets/cues/")
+	load_images(cue_images, "assets/cues/")
 	
 	# set up array of cloth images
-	load_images(cloth_images, "res://assets/cloths/")
+	load_images(cloth_images, "assets/cloths/")
 	
 	if Lobby.player_info.cloth_image:
 		#var image_texture = ImageTexture.new()
