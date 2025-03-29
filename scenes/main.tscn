@@ -127,6 +127,19 @@ text = "Ball Type: None"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="Panel" type="Panel" parent="Game"]
+z_index = -2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -201.0
+offset_right = -360.0
+offset_bottom = -201.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"PanelLight"
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_tefeu")
 
