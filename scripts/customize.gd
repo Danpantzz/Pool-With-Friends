@@ -54,6 +54,8 @@ func load_images(array, path):
 			elif file_name.contains(".import"):
 				pass
 			else:
+				if file_name.contains(".remap"):
+					file_name = file_name.replace(".remap", "")
 				#print("Found file: " + file_name)
 				var cue = (path + file_name)
 				# add file to array
@@ -78,7 +80,8 @@ func _on_prev_cue_pressed() -> void:
 		case.remove_child(cue_on_display)
 	cue_on_display = load(cue_images[cue_index]).instantiate()
 	case.add_child(cue_on_display)
-	cue_on_display.position = Vector2(890, 45)
+	cue_on_display.position = Vector2(1045, 45)
+	cue_on_display.scale = Vector2(1.5, 1.5)
 	
 	Lobby.player_info.cue_image = cue_images[cue_index]
 
@@ -91,7 +94,8 @@ func _on_next_cue_pressed() -> void:
 		case.remove_child(cue_on_display)
 	cue_on_display = load(cue_images[cue_index]).instantiate()
 	case.add_child(cue_on_display)
-	cue_on_display.position = Vector2(890, 45)
+	cue_on_display.position = Vector2(1045, 45)
+	cue_on_display.scale = Vector2(1.5, 1.5)
 	
 	Lobby.player_info.cue_image = cue_images[cue_index]
 

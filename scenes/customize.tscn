@@ -116,7 +116,8 @@ theme = ExtResource("4_cjuar")
 theme_type_variation = &"PanelLight"
 
 [node name="CueDefault" parent="VBoxContainer/CueCustomizer/MarginContainer/Case" instance=ExtResource("7_kwfij")]
-position = Vector2(890, 45)
+position = Vector2(1045, 45)
+scale = Vector2(1.5, 1.5)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/CueCustomizer"]
 layout_mode = 2
