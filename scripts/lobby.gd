@@ -13,7 +13,7 @@ const DEFAULT_SERVER_IP = "localhost" # IPv4 localhost
 const MAX_CONNECTIONS = 20
 
 var join_address = ""
-
+var upnp : UPNP
 var peer = ENetMultiplayerPeer.new()
 
 # This will contain player info for every player,
@@ -162,9 +162,12 @@ func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
 	players.clear()
 	server_disconnected.emit()
+	
+	upnp.delete_port_mapping(PORT, "UDP")
+	upnp.delete_port_mapping(PORT, "TCP")
 
 func upnp_setup():
-	var upnp = UPNP.new()
+	upnp = UPNP.new()
 	
 	var discover_result = upnp.discover()
 	assert(discover_result == UPNP.UPNP_RESULT_SUCCESS, \
@@ -173,9 +176,15 @@ func upnp_setup():
 	assert(upnp.get_gateway() and upnp.get_gateway().is_valid_gateway(), \
 		"UPNP Invalid Gateway!")
 		
-	var map_result = upnp.add_port_mapping(PORT)
-	assert(map_result == UPNP.UPNP_RESULT_SUCCESS, \
-		"UPNP Port Mapping Failed! Error %s" % map_result)
+	var map_result_udp = upnp.add_port_mapping(PORT, PORT, "godot_udp", "UDP")
+	var map_result_tcp = upnp.add_port_mapping(PORT, PORT, "godot_udp", "TCP")
+	
+	if not map_result_udp == UPNP.UPNP_RESULT_SUCCESS:
+		upnp.add_port_mapping(PORT, PORT, "", "UDP")
+	if not map_result_tcp == UPNP.UPNP_RESULT_SUCCESS:
+		upnp.add_port_mapping(PORT, PORT, "", "TCP")
+	#assert(map_result == UPNP.UPNP_RESULT_SUCCESS, \
+		#"UPNP Port Mapping Failed! Error %s" % map_result)
 	
 	print("Success! Join Address: %s" % upnp.query_external_address())
 	join_address = upnp.query_external_address()
